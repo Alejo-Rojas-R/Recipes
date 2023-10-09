@@ -12,17 +12,17 @@ namespace Recipes.Shared.Entities
         public int Id { get; set; }
 
         [Display(Name = "Titulo de la receta")]
-        [MaxLength(2000)]
+        [MaxLength(200)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string Title { get; set; } =null;
 
         [Display(Name = "Descripcion de la receta")]
-        [MaxLength(10000)]
+        [MaxLength(1000)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string Description { get; set; } =null;
 
         [Display(Name = "Dificultad de la receta")]
-        [Range(1,10, ErrorMessage ="El campo {0} debe estar en el rango de 1 a 10.")]
+        [Range(1,3, ErrorMessage ="El campo {0} debe estar en el rango de 1 a 3.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public int Difficulty { get; set; }
 
@@ -33,7 +33,7 @@ namespace Recipes.Shared.Entities
         public DateTime date { get; set; }
 
         [Display(Name = "Imagen")]
-        [DataType(DataType.ImageUrl)]
+        [MaxLength(2000)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string ImageUrl { get; set; } = null;
     }
