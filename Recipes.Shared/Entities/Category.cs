@@ -11,13 +11,13 @@ namespace Recipes.Shared.Entities
     {
         public int Id { get; set; } = 0;
 
-        [Display(Name = "Categoria")]
-        [MaxLength(2000)]
+        [Display(Name = "Categoría")]
+        [MaxLength(20)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string CategoryName { get; set; } =null;
 
-        [Display(Name = "Tipo de categoria")]
-        [MaxLength(2000)]
+        [Display(Name = "Tipo de categoría")]
+        [MaxLength(10)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string Type { get; set; } =null;
 
