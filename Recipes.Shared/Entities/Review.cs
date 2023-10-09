@@ -12,12 +12,12 @@ namespace Recipes.Shared.Entities
         public int Id { get; set; }
 
         [Display(Name = "Comentario acerca de la receta")]
-        [MaxLength(10000)]
+        [MaxLength(1000)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string Comment { get; set; } = null;
 
         [Display(Name = "Que puntaje le das a la receta")]
-        [Range(1, 10, ErrorMessage = "El campo {0} debe estar en el rango de 1 a 10.")]
+        [Range(1, 5, ErrorMessage = "El campo {0} debe estar en el rango de 1 a 5.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public int Score { get; set; }
 
