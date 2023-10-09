@@ -22,7 +22,7 @@ namespace Recipes.Shared.Entities
         public string Type { get; set; } =null;
 
         [Display(Name = "Imagen")]
-        [DataType(DataType.ImageUrl)]
+        [MaxLength(2000)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string ImageUrl { get; set; } =null;
     }
