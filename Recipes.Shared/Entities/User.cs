@@ -12,12 +12,12 @@ namespace Recipes.Shared.Entities
         public int Id { get; set; }
 
         [Display(Name = "Nombre del usuario")]
-        [MaxLength(2000)]
+        [MaxLength(20)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string Name { get; set; } =null;
 
         [Display(Name = "Apellido del usuario")]
-        [MaxLength(2000)]
+        [MaxLength(20)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string lastName { get; set; } = null;
 
@@ -28,12 +28,12 @@ namespace Recipes.Shared.Entities
 
         [Display(Name = "Contraseña del usuario")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [StringLength(2000, MinimumLength = 6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres")]
+        [StringLength(20, MinimumLength = 6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres")]
         [DataType(DataType.Password)]
         public string Password { get; set; } =null;
 
         [Display(Name = "Imagen")]
-        [DataType(DataType.ImageUrl)]
+        [MaxLength(2000)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string ImageUrl { get; set; } =null;
     }
