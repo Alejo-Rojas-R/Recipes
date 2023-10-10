@@ -21,5 +21,6 @@ namespace Recipes.Shared.Entities
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Date { get; set; }
+        public int Id { get; set; }
     }
 }
