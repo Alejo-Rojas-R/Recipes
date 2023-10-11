@@ -17,7 +17,7 @@ namespace Recipes.Shared.Entities
 
         [Display(Name = "Cantidad de ingredientes de la receta")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public int Quantity { get; set; } =null;
+        public int Quantity { get; set; } = 0;
 
         [Display(Name = "Descripcion del paso a paso de la receta")]
         [MaxLength(1000)]
