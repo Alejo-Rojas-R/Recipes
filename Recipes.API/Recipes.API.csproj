@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Recipes.Shared\Recipes.Shared.csproj" />
+    <ProjectReference Include="..\Recipes.WEB\Recipes.WEB.csproj" />
   </ItemGroup>
 
 </Project>
