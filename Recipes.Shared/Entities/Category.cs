@@ -14,16 +14,16 @@ namespace Recipes.Shared.Entities
         [Display(Name = "Categoría")]
         [MaxLength(20)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string CategoryName { get; set; } =null;
+        public string CategoryName { get; set; } 
 
         [Display(Name = "Tipo de categoría")]
         [MaxLength(10)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string Type { get; set; } =null;
+        public string Type { get; set; } 
 
         [Display(Name = "Imagen")]
         [MaxLength(2000)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string ImageUrl { get; set; } =null;
+        public string ImageUrl { get; set; } 
     }
 }

@@ -1,6 +1,7 @@
-﻿﻿@page "/categories"
-@using Recipes.WEB.Repositories;
+﻿@page "/categories"
+@using CurrieTechnologies.Razor.SweetAlert2;
 @using Recipes.Shared.Entities;
+@using Recipes.WEB.Repositories;
 
 @inject IRepository repository
 @inject NavigationManager navigationManager
@@ -9,26 +10,25 @@
 <h3>Categorias</h3>
 
 <div class="mb-3">
-    <a class="btn btn-primary" href="/Category/create">Nuevo Evento</a>
+    <a class="btn btn-primary" href="/categories/create">Nueva Categoria</a>
 </div>
 
 <GenericList MyList="Categories">
-
     <Body>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Eventos</th>
+                    <th>Categorias</th>
                     <th></th>
 
                 </tr>
             </thead>
             <tbody>
-                @foreach (var category in categories!)
+                @foreach (var category in Categories!)
                 {
                     <tr>
                         <td>
-                            @category.EventName
+                            @category.CategoryName
                         </td>
                         <td>
                             <a class="btn btn-warning">Editar</a>
@@ -45,11 +45,10 @@
         </table>
 
     </Body>
- 
 </GenericList>
 
 @code {
-    public List<Category>? categories { get; set; }
+    public List<Category>? Categories { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
@@ -59,7 +58,7 @@
     private async Task Load()
     {
         var responseHppt = await repository.Get<List<Category>>("api/categories");
-        categories = responseHppt.Response!;
+        Categories = responseHppt.Response!;
     }
 
     private async Task Delete(Category category)
