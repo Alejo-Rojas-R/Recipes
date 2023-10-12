@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Recipes.Shared\Recipes.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Review\" />
+  </ItemGroup>
+
 </Project>

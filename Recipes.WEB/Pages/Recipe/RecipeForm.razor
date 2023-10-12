@@ -3,12 +3,12 @@
 
 <NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation"></NavigationLock>
 <EditForm EditContext="editContext" OnSubmit="OnSubmit">
-    <DataAnnotationsValidator/>
+    <DataAnnotationsValidator />
     <div class="mb-3">
-        <label>Categoria:</label>
+        <label>Receta:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@Category.Name" />
-            <ValidationMessage For="@(() => Category.Name)" />
+            <InputText class="form-control" @bind-Value="@Recipe.Title" />
+            <ValidationMessage For="@(() => Recipe.Title)" />
         </div>
     </div>
 
@@ -23,14 +23,14 @@
 
     protected override void OnInitialized()
     {
-        editContext = new(category);
+        editContext = new(recipe);
 
     }
 
 
     [EditorRequired]
     [Parameter]
-    public Category category { get; set; } = null!;
+    public Recipe recipe { get; set; } = null!;
 
     [EditorRequired]
     [Parameter]
