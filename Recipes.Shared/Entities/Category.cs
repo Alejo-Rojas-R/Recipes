@@ -14,7 +14,7 @@ namespace Recipes.Shared.Entities
         [Display(Name = "Categoría")]
         [MaxLength(20)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string CategoryName { get; set; } 
+        public string Name { get; set; } 
 
         [Display(Name = "Tipo de categoría")]
         [MaxLength(10)]
