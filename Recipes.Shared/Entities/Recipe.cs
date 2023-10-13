@@ -36,5 +36,10 @@ namespace Recipes.Shared.Entities
         [MaxLength(2000)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string ImageUrl { get; set; } = null;
+
+        public ICollection<RecipeCategory> RecipeCategories { get; set; }
+        public ICollection<Review> Reviews { get; set; }
+        public ICollection<Step> Steps { get; set; }
+        public ICollection<Favorite> Favorites { get; set; }
     }
 }
