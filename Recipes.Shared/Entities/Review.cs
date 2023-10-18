@@ -14,7 +14,7 @@ namespace Recipes.Shared.Entities
         [Display(Name = "Comentario acerca de la receta")]
         [MaxLength(1000)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string Comment { get; set; } = null;
+        public string? Comment { get; set; }
 
         [Display(Name = "Que puntaje le das a la receta")]
         [Range(1, 5, ErrorMessage = "El campo {0} debe estar en el rango de 1 a 5.")]
@@ -25,7 +25,7 @@ namespace Recipes.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime date { get; set; }
+        public DateTime Date { get; set; }
 
         public int UserId { get; set; }
 

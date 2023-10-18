@@ -22,13 +22,13 @@ namespace Recipes.Shared.Entities
         [Display(Name = "Descripcion del paso a paso de la receta")]
         [MaxLength(1000)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string Description { get; set; } 
+        public string? Description { get; set; } 
 
         [Display(Name = "Imagen")]
         [MaxLength(2000)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string ImageUrl { get; set; }
-        public Recipe Recipe { get; set; }
-        public Ingredient Ingredient { get; set; }
+        public string? ImageUrl { get; set; }
+        public Recipe? Recipe { get; set; }
+        public Ingredient? Ingredient { get; set; }
     }
 }

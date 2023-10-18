@@ -1,0 +1,34 @@
+﻿@page "/users/create"
+
+@using Recipes.Shared.Entities;
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear Usuario</h3>
+
+<UserForm @ref="userForm" User="user" OnValidSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private User user = new();
+
+    private UserForm? userForm;
+
+    private async Task Create()
+    {
+        var responseHttp = await repository.Post("/api/users", user);
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message);
+            return;
+        }
+        userForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/users");
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/users");
+    }
+}

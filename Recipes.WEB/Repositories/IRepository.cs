@@ -1,6 +1,4 @@
-﻿using Recipes.WEB.Repositories;
-
-namespace Recipes.WEB.Repositories
+﻿namespace Recipes.WEB.Repositories
 {
 	public interface IRepository
 	{

@@ -7,12 +7,12 @@ namespace Recipes.API.Controllers
 {
     [ApiController]
     [Route("api/ingredients")]
-    public class IngredientController : ControllerBase
+    public class IngredientsController : ControllerBase
     {
 
         private readonly DataContext _context;
 
-        public IngredientController(DataContext context)
+        public IngredientsController(DataContext context)
         {
             _context = context;
         }
@@ -21,7 +21,7 @@ namespace Recipes.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            return Ok(await _context.ingredients.ToListAsync());
+            return Ok(await _context.Ingredients.ToListAsync());
         }
 
 
@@ -29,7 +29,7 @@ namespace Recipes.API.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var ingredient = await _context.ingredients.FirstOrDefaultAsync(x => x.Id == id);
+            var ingredient = await _context.Ingredients.FirstOrDefaultAsync(x => x.Id == id);
             if (ingredient == null)
             {
                 return NotFound();
@@ -64,7 +64,7 @@ namespace Recipes.API.Controllers
         public async Task<ActionResult> Delete(int id)
         {
 
-            var filaAfectada = await _context.ingredients
+            var filaAfectada = await _context.Ingredients
                 .Where(x => x.Id == id)
                 .ExecuteDeleteAsync();
 

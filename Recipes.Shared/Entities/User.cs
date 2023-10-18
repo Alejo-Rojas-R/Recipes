@@ -14,30 +14,29 @@ namespace Recipes.Shared.Entities
         [Display(Name = "Nombre del usuario")]
         [MaxLength(20)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string Name { get; set; } =null;
+        public string? Name { get; set; }
 
         [Display(Name = "Apellido del usuario")]
         [MaxLength(20)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string lastName { get; set; } = null;
+        public string? LastName { get; set; }
 
         [Display(Name = "Correo electronico del usuario")]
-        [RegularExpression(@"^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$", ErrorMessage = "Por favor, ingrese una dirección de correo electrónico válida")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string Email { get; set; } = null;
+        public string? Email { get; set; }
 
         [Display(Name = "Contraseña del usuario")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [StringLength(20, MinimumLength = 6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres")]
         [DataType(DataType.Password)]
-        public string Password { get; set; } =null;
+        public string? Password { get; set; }
 
         [Display(Name = "Imagen")]
         [MaxLength(2000)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string ImageUrl { get; set; } =null;
+        public string? ImageUrl { get; set; }
 
-        public ICollection<Favorite> Favorites { get; set; }
-        public ICollection<Review> Reviews { get; set; }
+        public ICollection<Favorite>? Favorites { get; set; }
+        public ICollection<Review>? Reviews { get; set; }
     }
 }

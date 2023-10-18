@@ -21,7 +21,7 @@ namespace Recipes.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            return Ok(await _context.categories.ToListAsync());
+            return Ok(await _context.Categories.ToListAsync());
         }
 
 
@@ -29,7 +29,7 @@ namespace Recipes.API.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var category = await _context.categories.FirstOrDefaultAsync(x => x.Id == id);
+            var category = await _context.Categories.FirstOrDefaultAsync(x => x.Id == id);
             if (category == null)
             {
                 return NotFound();
@@ -64,7 +64,7 @@ namespace Recipes.API.Controllers
         public async Task<ActionResult> Delete(int id)
         {
 
-            var filaAfectada = await _context.categories
+            var filaAfectada = await _context.Categories
                 .Where(x => x.Id == id)
                 .ExecuteDeleteAsync();
 

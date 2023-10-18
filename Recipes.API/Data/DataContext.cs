@@ -11,14 +11,14 @@ namespace Recipes.API.Data
         }
 
 
-        public DbSet<Category>categories { get; set; }
-        public DbSet<Favorite>favorites { get; set; }
-        public DbSet<Ingredient> ingredients { get; set; }
-        public DbSet<Recipe> recipes { get; set; }
-        public DbSet<RecipeCategory>recipeCategories { get; set; }
-        public DbSet<Review> reviews { get; set; }
-        public DbSet<Step> steps { get; set; }
-        public DbSet<User> users { get; set; }
+        public DbSet<Category>Categories { get; set; }
+        public DbSet<Favorite>Favorites { get; set; }
+        public DbSet<Ingredient>Ingredients { get; set; }
+        public DbSet<Recipe>Recipes { get; set; }
+        public DbSet<RecipeCategory>RecipeCategories { get; set; }
+        public DbSet<Review>Reviews { get; set; }
+        public DbSet<Step>Steps { get; set; }
+        public DbSet<User>Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

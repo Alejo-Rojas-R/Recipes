@@ -6,13 +6,13 @@ using Recipes.Shared.Entities;
 namespace Recipes.API.Controllers
 {
     [ApiController]
-    [Route("api/recipescategories")]
-    public class RecipeCategoriesController : ControllerBase
+    [Route("api/users")]
+    public class UsersController : ControllerBase
     {
 
         private readonly DataContext _context;
 
-        public RecipeCategoriesController(DataContext context)
+        public UsersController(DataContext context)
         {
             _context = context;
         }
@@ -21,7 +21,7 @@ namespace Recipes.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            return Ok(await _context.recipeCategories.ToListAsync());
+            return Ok(await _context.Users.ToListAsync());
         }
 
 
@@ -29,34 +29,34 @@ namespace Recipes.API.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var recipecategories = await _context.recipeCategories.FirstOrDefaultAsync(x => x.Id == id);
-            if (recipecategories == null)
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return Ok(recipecategories);
+            return Ok(user);
         }
 
 
         // Post- Create
         [HttpPost]
-        public async Task<ActionResult> Post(RecipeCategory recipeCategory)
+        public async Task<ActionResult> Post(User user)
         {
 
-            _context.Add(recipeCategory);
+            _context.Add(user);
             await _context.SaveChangesAsync();
-            return Ok(recipeCategory);
+            return Ok(user);
         }
 
         // Put-- update
         [HttpPut]
-        public async Task<ActionResult> Put(RecipeCategory recipeCategory)
+        public async Task<ActionResult> Put(User user)
         {
 
-            _context.Update(recipeCategory);
+            _context.Update(user);
             await _context.SaveChangesAsync();
-            return Ok(recipeCategory);
+            return Ok(user);
         }
 
 
@@ -64,7 +64,7 @@ namespace Recipes.API.Controllers
         public async Task<ActionResult> Delete(int id)
         {
 
-            var filaAfectada = await _context.recipeCategories
+            var filaAfectada = await _context.Users
                 .Where(x => x.Id == id)
                 .ExecuteDeleteAsync();
 
