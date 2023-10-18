@@ -6,13 +6,13 @@ using Recipes.Shared.Entities;
 namespace Recipes.API.Controllers
 {
     [ApiController]
-    [Route("api/steps")]
-    public class StepController : ControllerBase
+    [Route("api/favorites")]
+    public class FavoritesController:ControllerBase
     {
 
         private readonly DataContext _context;
 
-        public StepController(DataContext context)
+        public FavoritesController(DataContext context)
         {
             _context = context;
         }
@@ -21,7 +21,7 @@ namespace Recipes.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            return Ok(await _context.steps.ToListAsync());
+            return Ok(await _context.Favorites.ToListAsync());
         }
 
 
@@ -29,34 +29,34 @@ namespace Recipes.API.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var step = await _context.steps.FirstOrDefaultAsync(x => x.Id == id);
-            if (step == null)
+            var favorite = await _context.Favorites.FirstOrDefaultAsync(x => x.Id == id);
+            if (favorite == null)
             {
                 return NotFound();
             }
 
-            return Ok(step);
+            return Ok(favorite);
         }
 
 
         // Post- Create
         [HttpPost]
-        public async Task<ActionResult> Post(Step step)
+        public async Task<ActionResult> Post(Favorite favorite)
         {
 
-            _context.Add(step);
+            _context.Add(favorite);
             await _context.SaveChangesAsync();
-            return Ok(step);
+            return Ok(favorite);
         }
 
         // Put-- update
         [HttpPut]
-        public async Task<ActionResult> Put(Step step)
+        public async Task<ActionResult> Put(Favorite favorite)
         {
 
-            _context.Update(step);
+            _context.Update(favorite);
             await _context.SaveChangesAsync();
-            return Ok(step);
+            return Ok(favorite);
         }
 
 
@@ -64,7 +64,7 @@ namespace Recipes.API.Controllers
         public async Task<ActionResult> Delete(int id)
         {
 
-            var filaAfectada = await _context.steps
+            var filaAfectada = await _context.Favorites
                 .Where(x => x.Id == id)
                 .ExecuteDeleteAsync();
 

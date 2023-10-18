@@ -6,13 +6,13 @@ using Recipes.Shared.Entities;
 namespace Recipes.API.Controllers
 {
     [ApiController]
-    [Route("api/users")]
-    public class UserController : ControllerBase
+    [Route("api/reviews")]
+    public class ReviewsController : ControllerBase
     {
 
         private readonly DataContext _context;
 
-        public UserController(DataContext context)
+        public ReviewsController(DataContext context)
         {
             _context = context;
         }
@@ -21,7 +21,7 @@ namespace Recipes.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            return Ok(await _context.users.ToListAsync());
+            return Ok(await _context.Reviews.ToListAsync());
         }
 
 
@@ -29,34 +29,34 @@ namespace Recipes.API.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var user = await _context.users.FirstOrDefaultAsync(x => x.Id == id);
-            if (user == null)
+            var review = await _context.Reviews.FirstOrDefaultAsync(x => x.Id == id);
+            if (review == null)
             {
                 return NotFound();
             }
 
-            return Ok(user);
+            return Ok(review);
         }
 
 
         // Post- Create
         [HttpPost]
-        public async Task<ActionResult> Post(User user)
+        public async Task<ActionResult> Post(Review review)
         {
 
-            _context.Add(user);
+            _context.Add(review);
             await _context.SaveChangesAsync();
-            return Ok(user);
+            return Ok(review);
         }
 
         // Put-- update
         [HttpPut]
-        public async Task<ActionResult> Put(User user)
+        public async Task<ActionResult> Put(Review review)
         {
 
-            _context.Update(user);
+            _context.Update(review);
             await _context.SaveChangesAsync();
-            return Ok(user);
+            return Ok(review);
         }
 
 
@@ -64,7 +64,7 @@ namespace Recipes.API.Controllers
         public async Task<ActionResult> Delete(int id)
         {
 
-            var filaAfectada = await _context.users
+            var filaAfectada = await _context.Reviews
                 .Where(x => x.Id == id)
                 .ExecuteDeleteAsync();
 

@@ -14,12 +14,12 @@ namespace Recipes.Shared.Entities
         [Display(Name = "Titulo de la receta")]
         [MaxLength(200)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string Title { get; set; } =null;
+        public string? Title { get; set; }
 
         [Display(Name = "Descripcion de la receta")]
         [MaxLength(1000)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string Description { get; set; } =null;
+        public string? Description { get; set; }
 
         [Display(Name = "Dificultad de la receta")]
         [Range(1,3, ErrorMessage ="El campo {0} debe estar en el rango de 1 a 3.")]
@@ -30,16 +30,16 @@ namespace Recipes.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime date { get; set; }
+        public DateTime Date { get; set; }
 
         [Display(Name = "Imagen")]
         [MaxLength(2000)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string ImageUrl { get; set; } = null;
+        public string? ImageUrl { get; set; }
 
-        public ICollection<RecipeCategory> RecipeCategories { get; set; }
-        public ICollection<Review> Reviews { get; set; }
-        public ICollection<Step> Steps { get; set; }
-        public ICollection<Favorite> Favorites { get; set; }
+        public ICollection<RecipeCategory>? RecipeCategories { get; set; }
+        public ICollection<Review>? Reviews { get; set; }
+        public ICollection<Step>? Steps { get; set; }
+        public ICollection<Favorite>? Favorites { get; set; }
     }
 }

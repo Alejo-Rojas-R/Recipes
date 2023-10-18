@@ -6,13 +6,13 @@ using Recipes.Shared.Entities;
 namespace Recipes.API.Controllers
 {
     [ApiController]
-    [Route("api/recipes")]
-    public class RecipeController : ControllerBase
+    [Route("api/steps")]
+    public class StepsController : ControllerBase
     {
 
         private readonly DataContext _context;
 
-        public RecipeController(DataContext context)
+        public StepsController(DataContext context)
         {
             _context = context;
         }
@@ -21,7 +21,7 @@ namespace Recipes.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            return Ok(await _context.recipes.ToListAsync());
+            return Ok(await _context.Steps.ToListAsync());
         }
 
 
@@ -29,34 +29,34 @@ namespace Recipes.API.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var recipe = await _context.recipes.FirstOrDefaultAsync(x => x.Id == id);
-            if (recipe == null)
+            var step = await _context.Steps.FirstOrDefaultAsync(x => x.Id == id);
+            if (step == null)
             {
                 return NotFound();
             }
 
-            return Ok(recipe);
+            return Ok(step);
         }
 
 
         // Post- Create
         [HttpPost]
-        public async Task<ActionResult> Post(Recipe recipe)
+        public async Task<ActionResult> Post(Step step)
         {
 
-            _context.Add(recipe);
+            _context.Add(step);
             await _context.SaveChangesAsync();
-            return Ok(recipe);
+            return Ok(step);
         }
 
         // Put-- update
         [HttpPut]
-        public async Task<ActionResult> Put(Recipe recipe)
+        public async Task<ActionResult> Put(Step step)
         {
 
-            _context.Update(recipe);
+            _context.Update(step);
             await _context.SaveChangesAsync();
-            return Ok(recipe);
+            return Ok(step);
         }
 
 
@@ -64,7 +64,7 @@ namespace Recipes.API.Controllers
         public async Task<ActionResult> Delete(int id)
         {
 
-            var filaAfectada = await _context.recipes
+            var filaAfectada = await _context.Steps
                 .Where(x => x.Id == id)
                 .ExecuteDeleteAsync();
 

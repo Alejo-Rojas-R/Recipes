@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Recipes.API.Data;
 
@@ -11,9 +12,11 @@ using Recipes.API.Data;
 namespace Recipes.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231018141621_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,7 +50,7 @@ namespace Recipes.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("categories");
                 });
 
             modelBuilder.Entity("Recipes.Shared.Entities.Favorite", b =>
@@ -73,7 +76,7 @@ namespace Recipes.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Favorites");
+                    b.ToTable("favorites");
                 });
 
             modelBuilder.Entity("Recipes.Shared.Entities.Ingredient", b =>
@@ -101,7 +104,7 @@ namespace Recipes.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Ingredients");
+                    b.ToTable("ingredients");
                 });
 
             modelBuilder.Entity("Recipes.Shared.Entities.Recipe", b =>
@@ -111,9 +114,6 @@ namespace Recipes.API.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -133,9 +133,12 @@ namespace Recipes.API.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<DateTime>("date")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Recipes");
+                    b.ToTable("recipes");
                 });
 
             modelBuilder.Entity("Recipes.Shared.Entities.RecipeCategory", b =>
@@ -158,7 +161,7 @@ namespace Recipes.API.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("RecipeCategories");
+                    b.ToTable("recipeCategories");
                 });
 
             modelBuilder.Entity("Recipes.Shared.Entities.Review", b =>
@@ -174,9 +177,6 @@ namespace Recipes.API.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("RecipeId")
                         .HasColumnType("int");
 
@@ -186,13 +186,16 @@ namespace Recipes.API.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("date")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("RecipeId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("reviews");
                 });
 
             modelBuilder.Entity("Recipes.Shared.Entities.Step", b =>
@@ -228,7 +231,7 @@ namespace Recipes.API.Migrations
 
                     b.HasIndex("RecipeId");
 
-                    b.ToTable("Steps");
+                    b.ToTable("steps");
                 });
 
             modelBuilder.Entity("Recipes.Shared.Entities.User", b =>
@@ -248,11 +251,6 @@ namespace Recipes.API.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -263,9 +261,14 @@ namespace Recipes.API.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<string>("lastName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("Recipes.Shared.Entities.Favorite", b =>
