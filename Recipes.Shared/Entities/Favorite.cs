@@ -10,7 +10,7 @@ namespace Recipes.Shared.Entities
 {
     public class Favorite
     {
-        public int FavoriteId { get; set; } = 0;
+        public int Id { get; set; } = 0;
 
         public int UserId { get; set; } = 0;
 
@@ -21,6 +21,7 @@ namespace Recipes.Shared.Entities
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Date { get; set; }
-        public int Id { get; set; }
+        public Recipe Recipe { get; set; }
+        public User User { get; set; }
     }
 }

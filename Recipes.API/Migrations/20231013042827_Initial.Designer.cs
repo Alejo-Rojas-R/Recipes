@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Recipes.API.Data;
 
@@ -11,9 +12,16 @@ using Recipes.API.Data;
 namespace Recipes.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+<<<<<<<< HEAD:Recipes.API/Migrations/20231011172728_initial.Designer.cs
+    [Migration("20231011172728_initial")]
+    partial class initial
+========
+    [Migration("20231013042827_Initial")]
+    partial class Initial
+>>>>>>>> 160aa372b3d803c7579175d97db4e78d208484d1:Recipes.API/Migrations/20231013042827_Initial.Designer.cs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,13 +40,18 @@ namespace Recipes.API.Migrations
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Name")
                         .IsRequired()
+<<<<<<<< HEAD:Recipes.API/Migrations/20231011172728_initial.Designer.cs
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+========
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+>>>>>>>> 160aa372b3d803c7579175d97db4e78d208484d1:Recipes.API/Migrations/20231013042827_Initial.Designer.cs
 
                     b.Property<string>("Type")
                         .IsRequired()
