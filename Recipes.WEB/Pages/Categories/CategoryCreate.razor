@@ -15,7 +15,7 @@
 
     private async Task Create()
     {
-        var responseHttp = await repository.Post("/api/recipes", recipe);
+        var responseHttp = await repository.Post("/api/categories", recipe);
         if (responseHttp.Error)
         {
             var message = await responseHttp.GetErrorMessageAsync();
@@ -23,11 +23,11 @@
             return;
         }
         categoryForm!.FormPostedSuccessfully = true;
-        navigationManager.NavigateTo("/recipes");
+        navigationManager.NavigateTo("/categories");
     }
 
     private void Return()
     {
-        navigationManager.NavigateTo("/recipes");
+        navigationManager.NavigateTo("/categories");
     }
 }

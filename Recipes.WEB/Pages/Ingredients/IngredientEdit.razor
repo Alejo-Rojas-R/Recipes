@@ -15,12 +15,12 @@
 }
 else
 {
-    <RecipeForm @ref="ingredientForm" Ingredient="ingredient" OnValidSubmit="Edit" ReturnAction="Return" />
+    <IngredientForm @ref="ingredientForm" Ingredient="ingredient" OnValidSubmit="Edit" ReturnAction="Return" />
 }
 
 @code {
     private Ingredient? ingredient;
-    private RecipeForm? ingredientForm;
+    private IngredientForm? ingredientForm;
 
     [Parameter]
     public int Id { get; set; }

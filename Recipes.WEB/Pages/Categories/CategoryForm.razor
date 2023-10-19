@@ -8,8 +8,18 @@
     <div class="mb-3">
         <label>Title:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@Category.Title" />
+            <InputText class="form-control" @bind-Value="@Category.Name" />
             <ValidationMessage For="@(() => Category.Name)" />
+        </div>
+        <label>Type:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Category.Type" />
+            <ValidationMessage For="@(() => Category.Type)" />
+        </div>
+        <label>Image URL:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Category.ImageUrl" />
+            <ValidationMessage For="@(() => Category.ImageUrl)" />
         </div>
 
     </div>

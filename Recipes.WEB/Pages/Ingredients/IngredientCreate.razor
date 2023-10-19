@@ -6,12 +6,12 @@
 
 <h3>Crear Ingrediente</h3>
 
-<RecipeForm @ref="ingredientForm" Ingredient="ingredient" OnValidSubmit="Create" ReturnAction="Return" />
+<IngredientForm @ref="ingredientForm" Ingredient="ingredient" OnValidSubmit="Create" ReturnAction="Return" />
 
 @code {
     private Ingredient ingredient = new();
 
-    private RecipeForm? ingredientForm;
+    private IngredientForm? ingredientForm;
 
     private async Task Create()
     {

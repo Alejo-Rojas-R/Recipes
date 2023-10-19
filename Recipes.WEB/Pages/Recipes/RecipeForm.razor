@@ -9,17 +9,17 @@
         <label>Title:</label>
         <div>
             <InputText class="form-control" @bind-Value="@Recipe.Title" />
-            <ValidationMessage For="@(() => Recipe.Name)" />
+            <ValidationMessage For="@(() => Recipe.Title)" />
         </div>
         <label>Description:</label>
         <div>
             <InputText class="form-control" @bind-Value="@Recipe.Description" />
-            <ValidationMessage For="@(() => Recipe.Name)" />
+            <ValidationMessage For="@(() => Recipe.Description)" />
         </div>
         <label>Difficulty:</label>
         <div>
             <InputText class="form-control" @bind-Value="@Recipe.Difficulty" />
-            <ValidationMessage For="@(() => Recipe.Name)" />
+            <ValidationMessage For="@(() => Recipe.Difficulty)" />
         </div>
         <label>Date:</label>
         <div>

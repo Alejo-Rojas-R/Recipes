@@ -9,8 +9,19 @@
         <label>Title:</label>
         <div>
             <InputText class="form-control" @bind-Value="@Ingredient.Title" />
-            <ValidationMessage For="@(() => Ingredient.Name)" />
+            <ValidationMessage For="@(() => Ingredient.Title)" />
         </div>
+        <label>Description:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Ingredient.Description" />
+            <ValidationMessage For="@(() => Ingredient.Description)" />
+        </div>
+        <label>Image URL:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@Ingredient.ImageUrl" />
+            <ValidationMessage For="@(() => Ingredient.ImageUrl)" />
+        </div>
+
     </div>
     <button class="btn btn-primary" type="submit">Guardar Cambios</button>
     <button class="btn btn-success" @onclick="ReturnAction">Regresar</button>
