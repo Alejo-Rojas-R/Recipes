@@ -1,36 +1,36 @@
-﻿@page "/favorites"
+﻿@page "/users"
 
 @inject IRepository repository
 @inject NavigationManager navigationManager
 @inject SweetAlertService swal
 
-<h3>Categoria</h3>
+<h3>Usuarios</h3>
 
 <div class="mb-3">
-    <a class="btn btn-primary" href="/favorites/create">Nuevo favorito</a>
+    <a class="btn btn-primary" href="/users/create">Nuevo Usuario</a>
 </div>
 
-<GenericList MyList="Favorites">
+<GenericList MyList="Users">
 
     <Body>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>País</th>
+                    <th>Usuario</th>
                     <th></th>
 
                 </tr>
             </thead>
             <tbody>
-                @foreach (var favorite in Favorites!)
+                @foreach (var user in Users!)
                 {
                     <tr>
                         <td>
-                            @favorite.Date
+                            @user.Name
                         </td>
                         <td>
-                            <a href="/favorites/edit/@favorite.Id" class="btn btn-warning">Editar</a>
-                            <button class="btn btn-danger" @onclick=@(() => Delete(favorite))>Borrar</button>
+                            <a href="/users/edit/@user.Id" class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger" @onclick=@(() => Delete(user))>Borrar</button>
 
                         </td>
 
@@ -44,7 +44,7 @@
 </GenericList>
 
 @code {
-    public List<Favorite>? Favorites { get; set; }
+    public List<User>? Users { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
@@ -53,11 +53,11 @@
 
     private async Task Load()
     {
-        var responseHppt = await repository.Get<List<Favorite>>("api/favorites");
-        Favorites = responseHppt.Response!;
+        var responseHppt = await repository.Get<List<User>>("api/users");
+        Users = responseHppt.Response!;
     }
 
-    private async Task Delete(Favorite favorite)
+    private async Task Delete(User user)
     {
         var result = await swal.FireAsync(new SweetAlertOptions
             {
@@ -74,7 +74,7 @@
             return;
         }
 
-        var responseHTTP = await repository.Delete($"api/favorites/{favorite.Id}");
+        var responseHTTP = await repository.Delete($"api/users/{user.Id}");
 
         if (responseHTTP.Error)
         {
@@ -93,4 +93,5 @@
             await Load();
         }
     }
+
 }

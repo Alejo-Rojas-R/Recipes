@@ -6,38 +6,30 @@
 <EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
     <div class="mb-3">
-        <label>Nombre:</label>
+        <label>Title:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@User.Name" />
-            <ValidationMessage For="@(() => User.Name)" />
+            <InputText class="form-control" @bind-Value="@Recipe.Title" />
+            <ValidationMessage For="@(() => Recipe.Name)" />
         </div>
-    </div>
-    <div class="mb-3">
-        <label>Apellido:</label>
+        <label>Description:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@User.LastName" />
-            <ValidationMessage For="@(() => User.LastName)" />
+            <InputText class="form-control" @bind-Value="@Recipe.Description" />
+            <ValidationMessage For="@(() => Recipe.Name)" />
         </div>
-    </div>
-    <div class="mb-3">
-        <label>Email:</label>
+        <label>Difficulty:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@User.Email" />
-            <ValidationMessage For="@(() => User.Email)" />
+            <InputText class="form-control" @bind-Value="@Recipe.Difficulty" />
+            <ValidationMessage For="@(() => Recipe.Name)" />
         </div>
-    </div>
-    <div class="mb-3">
-        <label>Contraseña:</label>
+        <label>Date:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@User.Password" />
-            <ValidationMessage For="@(() => User.Password)" />
+            <InputText class="form-control" @bind-Value="@Recipe.Date" />
+            <ValidationMessage For="@(() => Recipe.Date)" />
         </div>
-    </div>
-    <div class="mb-3">
-        <label>Imagen URL:</label>
+        <label>Image URL:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@User.ImageUrl" />
-            <ValidationMessage For="@(() => User.ImageUrl)" />
+            <InputText class="form-control" @bind-Value="@Recipe.ImageUrl" />
+            <ValidationMessage For="@(() => Recipe.ImageUrl)" />
         </div>
     </div>
     <button class="btn btn-primary" type="submit">Guardar Cambios</button>
@@ -49,7 +41,7 @@
 
     [Parameter]
     [EditorRequired]
-    public User User { get; set; } = null!;
+    public Recipe Recipe { get; set; } = null!;
 
     [Parameter]
     [EditorRequired]
@@ -63,7 +55,7 @@
 
     protected override void OnInitialized()
     {
-        editContext = new(User);
+        editContext = new(Recipe);
     }
 
     private async Task OnBeforeInternalNavigation(LocationChangingContext context)

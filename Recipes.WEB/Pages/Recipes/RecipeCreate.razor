@@ -1,33 +1,33 @@
-﻿@page "/users/create"
+﻿@page "/recipes/create"
 @using Recipes.Shared.Entities;
 @inject IRepository repository
 @inject NavigationManager navigationManager
 @inject SweetAlertService sweetAlertService
 
-<h3>Crear Usuario</h3>
+<h3>Crear Receta</h3>
 
-<UserForm @ref="userForm" User="user" OnValidSubmit="Create" ReturnAction="Return" />
+<RecipeForm @ref="recipeForm" Recipe="recipe" OnValidSubmit="Create" ReturnAction="Return" />
 
 @code {
-    private User user = new();
+    private Recipe recipe = new();
 
-    private UserForm? userForm;
+    private RecipeForm? recipeForm;
 
     private async Task Create()
     {
-        var responseHttp = await repository.Post("/api/users", user);
+        var responseHttp = await repository.Post("/api/recipes", recipe);
         if (responseHttp.Error)
         {
             var message = await responseHttp.GetErrorMessageAsync();
             await sweetAlertService.FireAsync("Error", message);
             return;
         }
-        userForm!.FormPostedSuccessfully = true;
-        navigationManager.NavigateTo("/users");
+        recipeForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/recipes");
     }
 
     private void Return()
     {
-        navigationManager.NavigateTo("/users");
+        navigationManager.NavigateTo("/recipes");
     }
 }

@@ -14,17 +14,17 @@ namespace Recipes.Shared.Entities
         [Display(Name = "Nombre del ingrediente")]
         [MaxLength(20)]
         [Required (ErrorMessage ="El campo {0} es obligatorio")]
-        public string IngredientName { get; set; } =null;
+        public string? IngredientName { get; set; }
 
         [Display(Name = "Descripcion")]
         [MaxLength(1000)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string Description { get; set; } =null;
+        public string? Description { get; set; }
 
         [Display(Name = "Imagen")]
         [MaxLength(2000)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string ImageUrl { get; set; } =null;
+        public string? ImageUrl { get; set; }
         public ICollection<Step>? Steps { get; set; }
 
     }

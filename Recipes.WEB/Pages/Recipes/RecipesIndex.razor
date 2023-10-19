@@ -1,4 +1,4 @@
-﻿@page "/categories"
+﻿@page "/recipes"
 
 @using Recipes.Shared.Entities;
 @using Recipes.WEB.Repositories;
@@ -7,33 +7,33 @@
 @inject NavigationManager navigationManager
 @inject SweetAlertService swal
 
-<h3>Categoria</h3>
+<h3>Recetas</h3>
 
 <div class="mb-3">
-    <a class="btn btn-primary" href="/categories/create">Nueva categoria</a>
+    <a class="btn btn-primary" href="/recipes/create">Nueva Receta</a>
 </div>
 
-<GenericList MyList="Categories">
+<GenericList MyList="Recipes">
 
     <Body>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Categoria</th>
+                    <th>Receta</th>
                     <th></th>
 
                 </tr>
             </thead>
             <tbody>
-                @foreach (var category in Categories!)
+                @foreach (var recipe in Recipes!)
                 {
                     <tr>
                         <td>
-                            @category.Name
+                            @recipe.Name
                         </td>
                         <td>
-                            <a href="/categories/edit/@category.Id" class="btn btn-warning">Editar</a>
-                            <button class="btn btn-danger" @onclick=@(() => Delete(category))>Borrar</button>
+                            <a href="/recipes/edit/@recipe.Id" class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger" @onclick=@(() => Delete(recipe))>Borrar</button>
 
                         </td>
 
@@ -47,7 +47,7 @@
 </GenericList>
 
 @code {
-    public List<Category>? Categories { get; set; }
+    public List<Recipe>? Recipes { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
@@ -56,11 +56,11 @@
 
     private async Task Load()
     {
-        var responseHppt = await repository.Get<List<Category>>("api/categories");
-        Categories = responseHppt.Response!;
+        var responseHppt = await repository.Get<List<Recipe>>("api/recipes");
+        Recipes = responseHppt.Response!;
     }
 
-    private async Task Delete(Category category)
+    private async Task Delete(Recipe recipe)
     {
         var result = await swal.FireAsync(new SweetAlertOptions
             {
@@ -77,7 +77,7 @@
             return;
         }
 
-        var responseHTTP = await repository.Delete($"api/categories/{category.Id}");
+        var responseHTTP = await repository.Delete($"api/recipes/{recipe.Id}");
 
         if (responseHTTP.Error)
         {
@@ -96,4 +96,5 @@
             await Load();
         }
     }
+
 }

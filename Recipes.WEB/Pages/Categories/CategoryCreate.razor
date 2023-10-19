@@ -1,0 +1,33 @@
+﻿@page "/categories/create"
+@using Recipes.Shared.Entities;
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear Categoria</h3>
+
+<CategoryForm @ref="categoryForm" Recipe="recipe" OnValidSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private Recipe recipe = new();
+
+    private CategoryForm? categoryForm;
+
+    private async Task Create()
+    {
+        var responseHttp = await repository.Post("/api/recipes", recipe);
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message);
+            return;
+        }
+        categoryForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/recipes");
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/recipes");
+    }
+}
