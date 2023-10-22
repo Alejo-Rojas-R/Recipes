@@ -6,16 +6,16 @@
 
 <h3>Crear Categoria</h3>
 
-<CategoryForm @ref="categoryForm" Recipe="recipe" OnValidSubmit="Create" ReturnAction="Return" />
+<CategoryForm @ref="categoryForm" Category="category" OnValidSubmit="Create" ReturnAction="Return" />
 
 @code {
-    private Recipe recipe = new();
+    private Category category = new();
 
     private CategoryForm? categoryForm;
 
     private async Task Create()
     {
-        var responseHttp = await repository.Post("/api/categories", recipe);
+        var responseHttp = await repository.Post("/api/categories", category);
         if (responseHttp.Error)
         {
             var message = await responseHttp.GetErrorMessageAsync();

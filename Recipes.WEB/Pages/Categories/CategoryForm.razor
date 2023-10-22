@@ -1,5 +1,4 @@
-﻿@using Recipes.Shared.Entities;
-@inject SweetAlertService sweetAlertService
+﻿@inject SweetAlertService sweetAlertService
 
 <NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
 
@@ -13,7 +12,10 @@
         </div>
         <label>Type:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@Category.Type" />
+            <InputSelect class="form-control" @bind-Value="@Category.Type">
+                <option value="Tag">Tag</option>
+                <option value="Category">Category</option>
+            </InputSelect>
             <ValidationMessage For="@(() => Category.Type)" />
         </div>
         <label>Image URL:</label>

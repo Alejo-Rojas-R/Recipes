@@ -1,5 +1,4 @@
-﻿@using Recipes.Shared.Entities;
-@inject SweetAlertService sweetAlertService
+﻿@inject SweetAlertService sweetAlertService
 
 <NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
 
@@ -18,12 +17,16 @@
         </div>
         <label>Difficulty:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@Recipe.Difficulty" />
+            <InputSelect class="form-control" @bind-Value="@Recipe.Difficulty">
+                <option value="Easy">Facil</option>
+                <option value="Normal">Normal</option>
+                <option value="Hard">Dificil</option>
+            </InputSelect>
             <ValidationMessage For="@(() => Recipe.Difficulty)" />
         </div>
         <label>Date:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@Recipe.Date" />
+            <InputDate class="form-control" @bind-Value="@Recipe.Date" />
             <ValidationMessage For="@(() => Recipe.Date)" />
         </div>
         <label>Image URL:</label>

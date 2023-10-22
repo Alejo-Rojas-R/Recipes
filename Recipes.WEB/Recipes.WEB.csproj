@@ -7,28 +7,42 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Pages\Review\**" />
-    <Content Remove="Pages\Review\**" />
-    <EmbeddedResource Remove="Pages\Review\**" />
-    <None Remove="Pages\Review\**" />
+    <Compile Remove="Pages\Ingredient\**" />
+    <Content Remove="Pages\Ingredient\**" />
+    <EmbeddedResource Remove="Pages\Ingredient\**" />
+    <None Remove="Pages\Ingredient\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Categories\CategoriesIndex.razor" />
+    <None Include="Pages\Categories\CategoryCreate.razor" />
+    <None Include="Pages\Categories\CategoryEdit.razor" />
+    <None Include="Pages\Categories\CategoryForm.razor" />
+    <None Include="Pages\Index.razor" />
+    <None Include="Pages\Users\UserCreate.razor" />
+    <None Include="Pages\Users\UserEdit.razor" />
+    <None Include="Pages\Users\UserForm.razor" />
+    <None Include="Pages\Users\UsersIndex.razor" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CurrieTechnologies.Razor.SweetAlert2" Version="5.5.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.12" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.12" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.11" PrivateAssets="all" />
     <PackageReference Include="SweetAlert" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Favorites\" />
-    <Folder Include="Pages\Steps\" />
-    <Folder Include="Pages\Reviews\" />
-    <Folder Include="Pages\RecipeCategories\" />
+    <ProjectReference Include="..\Recipes.Shared\Recipes.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Recipes.Shared\Recipes.Shared.csproj" />
+    <Folder Include="Pages\Categories\" />
+    <Folder Include="Pages\Favorites\" />
+    <Folder Include="Pages\RecipeCategories\" />
+    <Folder Include="Pages\Reviews\" />
+    <Folder Include="Pages\Steps\" />
+    <Folder Include="Pages\Users\" />
   </ItemGroup>
 
 </Project>

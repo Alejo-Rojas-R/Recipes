@@ -1,5 +1,4 @@
-﻿@using Recipes.Shared.Entities;
-@inject SweetAlertService sweetAlertService
+﻿@inject SweetAlertService sweetAlertService
 
 <NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
 
@@ -8,8 +7,8 @@
     <div class="mb-3">
         <label>Title:</label>
         <div>
-            <InputText class="form-control" @bind-Value="@Ingredient.Title" />
-            <ValidationMessage For="@(() => Ingredient.Title)" />
+            <InputText class="form-control" @bind-Value="@Ingredient.IngredientName" />
+            <ValidationMessage For="@(() => Ingredient.IngredientName)" />
         </div>
         <label>Description:</label>
         <div>
