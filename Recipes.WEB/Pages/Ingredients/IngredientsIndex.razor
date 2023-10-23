@@ -17,6 +17,7 @@
             <thead>
                 <tr>
                     <th>Receta</th>
+                    <th>Image</th>
                     <th></th>
 
                 </tr>
@@ -29,11 +30,13 @@
                             @ingredient.IngredientName
                         </td>
                         <td>
+                            @ingredient.ImageUrl
+                        </td>
+                        <td>
                             <a href="/ingredients/edit/@ingredient.Id" class="btn btn-warning">Editar</a>
                             <button class="btn btn-danger" @onclick=@(() => Delete(ingredient))>Borrar</button>
 
                         </td>
-
                     </tr>
                 }
             </tbody>

@@ -31,14 +31,13 @@ namespace Recipes.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -46,6 +45,9 @@ namespace Recipes.API.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Categories");
                 });
@@ -84,13 +86,7 @@ namespace Recipes.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
@@ -101,7 +97,38 @@ namespace Recipes.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("IngredientName")
+                        .IsUnique();
+
                     b.ToTable("Ingredients");
+                });
+
+            modelBuilder.Entity("Recipes.Shared.Entities.IngredientRecipe", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("IngredientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Quantity")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("RecipeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IngredientId");
+
+                    b.HasIndex("RecipeId");
+
+                    b.ToTable("IngredientRecipes");
                 });
 
             modelBuilder.Entity("Recipes.Shared.Entities.Recipe", b =>
@@ -117,8 +144,7 @@ namespace Recipes.API.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Difficulty")
                         .IsRequired()
@@ -126,9 +152,16 @@ namespace Recipes.API.Migrations
                         .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
+
+                    b.Property<int?>("Portions")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Time")
+                        .IsRequired()
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -173,8 +206,7 @@ namespace Recipes.API.Migrations
 
                     b.Property<string>("Comment")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -207,26 +239,19 @@ namespace Recipes.API.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
-                    b.Property<int>("IngredientId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
+                    b.Property<int>("Order")
                         .HasColumnType("int");
 
                     b.Property<int>("RecipeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IngredientId");
 
                     b.HasIndex("RecipeId");
 
@@ -246,7 +271,6 @@ namespace Recipes.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
@@ -289,6 +313,25 @@ namespace Recipes.API.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Recipes.Shared.Entities.IngredientRecipe", b =>
+                {
+                    b.HasOne("Recipes.Shared.Entities.Ingredient", "Ingredient")
+                        .WithMany("IngredientRecipe")
+                        .HasForeignKey("IngredientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Recipes.Shared.Entities.Recipe", "Recipe")
+                        .WithMany("IngredientRecipe")
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ingredient");
+
+                    b.Navigation("Recipe");
+                });
+
             modelBuilder.Entity("Recipes.Shared.Entities.RecipeCategory", b =>
                 {
                     b.HasOne("Recipes.Shared.Entities.Category", "Category")
@@ -329,19 +372,11 @@ namespace Recipes.API.Migrations
 
             modelBuilder.Entity("Recipes.Shared.Entities.Step", b =>
                 {
-                    b.HasOne("Recipes.Shared.Entities.Ingredient", "Ingredient")
-                        .WithMany("Steps")
-                        .HasForeignKey("IngredientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Recipes.Shared.Entities.Recipe", "Recipe")
                         .WithMany("Steps")
                         .HasForeignKey("RecipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Ingredient");
 
                     b.Navigation("Recipe");
                 });
@@ -353,12 +388,14 @@ namespace Recipes.API.Migrations
 
             modelBuilder.Entity("Recipes.Shared.Entities.Ingredient", b =>
                 {
-                    b.Navigation("Steps");
+                    b.Navigation("IngredientRecipe");
                 });
 
             modelBuilder.Entity("Recipes.Shared.Entities.Recipe", b =>
                 {
                     b.Navigation("Favorites");
+
+                    b.Navigation("IngredientRecipe");
 
                     b.Navigation("RecipeCategories");
 

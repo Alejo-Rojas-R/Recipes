@@ -4,7 +4,7 @@
 @inject NavigationManager navigationManager
 @inject SweetAlertService swal
 
-<h3>Categoria</h3>
+<h3>Categorias</h3>
 
 <div class="mb-3">
     <a class="btn btn-primary" href="/categories/create">Nueva categoria</a>
@@ -17,6 +17,8 @@
             <thead>
                 <tr>
                     <th>Categoria</th>
+                    <th>Type</th>
+                    <th>Image</th>
                     <th></th>
 
                 </tr>
@@ -27,6 +29,12 @@
                     <tr>
                         <td>
                             @category.Name
+                        </td>
+                        <td>
+                            @category.Type
+                        </td>
+                        <td>
+                            @category.ImageUrl
                         </td>
                         <td>
                             <a href="/categories/edit/@category.Id" class="btn btn-warning">Editar</a>

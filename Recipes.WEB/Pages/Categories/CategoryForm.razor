@@ -13,8 +13,8 @@
         <label>Type:</label>
         <div>
             <InputSelect class="form-control" @bind-Value="@Category.Type">
+                <option value="Category" selected="selected">Category</option>
                 <option value="Tag">Tag</option>
-                <option value="Category">Category</option>
             </InputSelect>
             <ValidationMessage For="@(() => Category.Type)" />
         </div>

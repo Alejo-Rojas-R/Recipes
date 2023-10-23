@@ -1,0 +1,69 @@
+﻿@page "/steps/edit/{Id:int}"
+
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService swal
+
+<h3>Editar Categoría de Receta</h3>
+
+@if (step is null)
+{
+    <div class="align-items-center">
+        <img src="https://img.pikbest.com/png-images/20190918/cartoon-snail-loading-loading-gif-animation_2734139.png!bw700" />
+    </div>
+}
+else
+{
+    <StepForm @ref="stepsForm" Step="step" OnValidSubmit="Edit" ReturnAction="Return" />
+}
+
+@code {
+    private Step? step;
+    private StepForm? stepsForm;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var responseHttp = await repository.Get<Step>($"api/steps/{Id}");
+
+        if (responseHttp.Error)
+        {
+            if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("steps");
+            }
+            else
+            {
+                var errorMessage = await responseHttp.GetErrorMessageAsync();
+                await swal.FireAsync("Error", errorMessage, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            step = responseHttp.Response;
+        }
+    }
+
+    private async Task Edit()
+    {
+        var responseHttp = await repository.Put("api/steps", step);
+
+        if (responseHttp.Error)
+        {
+            var errorMessage = await responseHttp.GetErrorMessageAsync();
+            await swal.FireAsync("Error", errorMessage, SweetAlertIcon.Error);
+        }
+        else
+        {
+            stepsForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo("steps");
+        }
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("steps");
+    }
+}

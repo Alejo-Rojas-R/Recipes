@@ -1,0 +1,33 @@
+﻿@page "/favorites/create"
+
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear Favoritos</h3>
+
+<FavoriteForm @ref="recipeForm" Favorite="favorite" OnValidSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private Favorite favorite = new();
+
+    private FavoriteForm? recipeForm;
+
+    private async Task Create()
+    {
+        var responseHttp = await repository.Post("/api/favorites", favorite);
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message);
+            return;
+        }
+        recipeForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/favorites");
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/favorites");
+    }
+}

@@ -10,11 +10,6 @@
             <InputText class="form-control" @bind-Value="@Ingredient.IngredientName" />
             <ValidationMessage For="@(() => Ingredient.IngredientName)" />
         </div>
-        <label>Description:</label>
-        <div>
-            <InputText class="form-control" @bind-Value="@Ingredient.Description" />
-            <ValidationMessage For="@(() => Ingredient.Description)" />
-        </div>
         <label>Image URL:</label>
         <div>
             <InputText class="form-control" @bind-Value="@Ingredient.ImageUrl" />

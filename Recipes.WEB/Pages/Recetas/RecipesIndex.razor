@@ -17,8 +17,13 @@
             <thead>
                 <tr>
                     <th>Receta</th>
+                    <th>Descripción</th>
+                    <th>Imagen</th>
+                    <th>Tiempo</th>
+                    <th>Porciones</th>
+                    <th>Dificultad</th>
+                    <th>Fecha</th>
                     <th></th>
-
                 </tr>
             </thead>
             <tbody>
@@ -29,11 +34,27 @@
                             @recipe.Title
                         </td>
                         <td>
+                            @recipe.Description
+                        </td>
+                        <td>
+                            @recipe.ImageUrl
+                        </td>
+                        <td>
+                            @recipe.Time
+                        </td>
+                        <td>
+                            @recipe.Portions
+                        </td>
+                        <td>
+                            @recipe.Difficulty
+                        </td>
+                        <td>
+                            @recipe.Date
+                        </td>
+                        <td>
                             <a href="/recipes/edit/@recipe.Id" class="btn btn-warning">Editar</a>
                             <button class="btn btn-danger" @onclick=@(() => Delete(recipe))>Borrar</button>
-
                         </td>
-
                     </tr>
                 }
             </tbody>

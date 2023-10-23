@@ -1,13 +1,10 @@
 ﻿@page "/users/edit/{Id:int}"
 
-
-
-
 @inject IRepository repository
 @inject NavigationManager navigationManager
 @inject SweetAlertService swal
 
-<h3>Editar País</h3>
+<h3>Editar Usuario</h3>
 
 @if (user is null)
 {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Recipes.Shared.Entities
 {
@@ -12,7 +7,7 @@ namespace Recipes.Shared.Entities
         public int Id { get; set; }
 
         [Display(Name = "Comentario acerca de la receta")]
-        [MaxLength(1000)]
+        [DataType(DataType.MultilineText)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string? Comment { get; set; }
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Recipes.Shared.Entities
 {
@@ -33,7 +28,6 @@ namespace Recipes.Shared.Entities
 
         [Display(Name = "Imagen")]
         [MaxLength(2000)]
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string? ImageUrl { get; set; }
 
         public ICollection<Favorite>? Favorites { get; set; }

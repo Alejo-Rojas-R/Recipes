@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Recipes.Shared.Entities
 {
@@ -16,7 +10,7 @@ namespace Recipes.Shared.Entities
 
         public int RecipeId { get; set; } = 0;
 
-        [Display (Name="Fecha")]
+        [Display(Name = "Fecha")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
