@@ -4,10 +4,10 @@
 @inject NavigationManager navigationManager
 @inject SweetAlertService swal
 
-<h3>Categoria</h3>
+<h3>Favoritos</h3>
 
 <div class="mb-3">
-    <a class="btn btn-primary" href="/favorites/create">Nuevo favorito</a>
+    <a class="btn btn-primary" href="/favorites/create">Nuevo Favorito</a>
 </div>
 
 <GenericList MyList="Favorites">
@@ -16,7 +16,9 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>País</th>
+                    <th>Receta</th>
+                    <th>User</th>
+                    <th>Date</th>
                     <th></th>
 
                 </tr>
@@ -25,6 +27,12 @@
                 @foreach (var favorite in Favorites!)
                 {
                     <tr>
+                        <td>
+                            @GetRecipeTitle(favorite.RecipeId)
+                        </td>
+                        <td>
+                            @GetUserName(favorite.UserId)
+                        </td>
                         <td>
                             @favorite.Date
                         </td>
@@ -45,16 +53,36 @@
 
 @code {
     public List<Favorite>? Favorites { get; set; }
+    public List<Recipe>? Recipes { get; set; }
+    public List<User>? Users { get; set; }
 
-    protected async override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         await Load();
     }
 
     private async Task Load()
     {
-        var responseHppt = await repository.Get<List<Favorite>>("api/favorites");
-        Favorites = responseHppt.Response!;
+        var favoriteResponse = await repository.Get<List<Favorite>>("api/favorites");
+        Favorites = favoriteResponse.Response!;
+
+        var recipeResponse = await repository.Get<List<Recipe>>("api/recipes");
+        Recipes = recipeResponse.Response!;
+
+        var userResponse = await repository.Get<List<User>>("api/users");
+        Users = userResponse.Response!;
+    }
+
+    private string GetRecipeTitle(int recipeId)
+    {
+        var recipe = Recipes.FirstOrDefault(r => r.Id == recipeId);
+        return recipe != null ? recipe.Title : string.Empty;
+    }
+
+    private string GetUserName(int userId)
+    {
+        var user = Users.FirstOrDefault(u => u.Id == userId);
+        return user != null ? $"{user.Name} {user.LastName}" : string.Empty;
     }
 
     private async Task Delete(Favorite favorite)
@@ -62,7 +90,7 @@
         var result = await swal.FireAsync(new SweetAlertOptions
             {
                 Title = "Confirmación",
-                Text = "¿Esta seguro que quieres borrar el registro?",
+                Text = "¿Está seguro de que desea borrar el registro?",
                 Icon = SweetAlertIcon.Question,
                 ShowCancelButton = true
             });
@@ -84,8 +112,8 @@
             }
             else
             {
-                var mensajeError = await responseHTTP.GetErrorMessageAsync();
-                await swal.FireAsync("Error", mensajeError, SweetAlertIcon.Error);
+                var errorMessage = await responseHTTP.GetErrorMessageAsync();
+                await swal.FireAsync("Error", errorMessage, SweetAlertIcon.Error);
             }
         }
         else

@@ -1,0 +1,118 @@
+﻿@inject IRepository repository
+@inject SweetAlertService sweetAlertService
+
+<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+
+<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label>Comment:</label>
+        <div>
+            <InputTextArea class="form-control" @bind-Value="@Review.Comment" />
+            <ValidationMessage For="@(() => Review.Comment)" />
+        </div>
+        <label>Score:</label>
+        <div>
+            <InputNumber class="form-control" @bind-Value="@Review.Score" />
+            <ValidationMessage For="@(() => Review.Score)" />
+        </div>
+        <label>Date:</label>
+        <div>
+            <InputDate class="form-control" @bind-Value="@Review.Date" />
+            <ValidationMessage For="@(() => Review.Date)" />
+        </div>
+        <label>User:</label>
+        <div>
+            <InputSelect class="form-control" @bind-Value="@Review.UserId">
+                <option value="">Please select an option</option>
+                @foreach (var user in Users)
+                {
+                    <option value="@user.Id">@user.Name @user.LastName</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => Review.UserId)" />
+        </div>
+        <label>Recipe:</label>
+        <div>
+            <InputSelect class="form-control" @bind-Value="@Review.RecipeId">
+                <option value="">Please select an option</option>
+                @foreach (var recipe in Recipes)
+                {
+                    <option value="@recipe.Id">@recipe.Title</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => Review.RecipeId)" />
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Save Changes</button>
+    <button class="btn btn-success" @onclick="ReturnAction">Back</button>
+</EditForm>
+
+@code {
+    private EditContext? editContext;
+    private List<User> Users { get; set; } = new List<User>();
+    private List<Recipe> Recipes { get; set; } = new List<Recipe>();
+
+    [Parameter]
+    [EditorRequired]
+    public Review? Review { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public EventCallback OnValidSubmit { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public EventCallback ReturnAction { get; set; }
+
+    public bool FormPostedSuccessfully { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        editContext = new(Review);
+        Review.Date = DateTime.Today;
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        var recipeResponse = await repository.Get<List<Recipe>>("api/recipes");
+        if (!recipeResponse.Error)
+        {
+            Recipes = recipeResponse.Response!;
+        }
+
+        var userResponse = await repository.Get<List<User>>("api/users");
+        if (!userResponse.Error)
+        {
+            Users = userResponse.Response!;
+        }
+    }
+
+    private async Task OnBeforeInternalNavigation(LocationChangingContext context)
+    {
+        var formWasMofied = editContext.IsModified();
+        if (!formWasMofied || FormPostedSuccessfully)
+        {
+            return;
+        }
+
+        var result = await sweetAlertService.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = "¿Deseas abandonar la página y perder los cambios?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true,
+                CancelButtonText = "No",
+                ConfirmButtonText = "Si"
+            });
+
+        var confirm = !string.IsNullOrEmpty(result.Value);
+        if (confirm)
+        {
+            return;
+        }
+
+        context.PreventNavigation();
+    }
+}

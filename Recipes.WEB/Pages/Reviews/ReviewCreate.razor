@@ -1,0 +1,33 @@
+﻿@page "/reviews/create"
+
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear Reseña para una receta</h3>
+
+<ReviewForm @ref="recipeForm" Review="review" OnValidSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private Review review = new();
+
+    private ReviewForm? recipeForm;
+
+    private async Task Create()
+    {
+        var responseHttp = await repository.Post("/api/reviews", review);
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message);
+            return;
+        }
+        recipeForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/reviews");
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/reviews");
+    }
+}

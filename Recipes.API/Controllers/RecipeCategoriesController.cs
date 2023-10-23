@@ -6,7 +6,7 @@ using Recipes.Shared.Entities;
 namespace Recipes.API.Controllers
 {
     [ApiController]
-    [Route("api/recipescategories")]
+    [Route("api/recipecategories")]
     public class RecipeCategoriesController : ControllerBase
     {
 
@@ -29,13 +29,13 @@ namespace Recipes.API.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var recipecategories = await _context.RecipeCategories.FirstOrDefaultAsync(x => x.Id == id);
-            if (recipecategories == null)
+            var recipeCategories = await _context.RecipeCategories.FirstOrDefaultAsync(x => x.Id == id);
+            if (recipeCategories == null)
             {
                 return NotFound();
             }
 
-            return Ok(recipecategories);
+            return Ok(recipeCategories);
         }
 
 

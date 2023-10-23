@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes.Shared", "Recipes.Shared\Recipes.Shared.csproj", "{98B4D607-1CE3-4A69-A9E0-39BA97511B99}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes.API", "Recipes.API\Recipes.API.csproj", "{11C047F1-DBAE-40AE-A39A-E24DF6E8A624}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A592F0BE-041C-4EF9-84DD-C670923CB8CF} = {A592F0BE-041C-4EF9-84DD-C670923CB8CF}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Recipes.WEB", "Recipes.WEB\Recipes.WEB.csproj", "{A592F0BE-041C-4EF9-84DD-C670923CB8CF}"
 EndProject
@@ -30,7 +33,6 @@ Global
 		{A592F0BE-041C-4EF9-84DD-C670923CB8CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A592F0BE-041C-4EF9-84DD-C670923CB8CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ECBA9000-04E3-4FED-A0D5-EE8666250735}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ECBA9000-04E3-4FED-A0D5-EE8666250735}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECBA9000-04E3-4FED-A0D5-EE8666250735}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{ECBA9000-04E3-4FED-A0D5-EE8666250735}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECBA9000-04E3-4FED-A0D5-EE8666250735}.Release|Any CPU.Build.0 = Release|Any CPU

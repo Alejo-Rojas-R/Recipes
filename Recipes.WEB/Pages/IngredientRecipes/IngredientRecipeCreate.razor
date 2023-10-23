@@ -1,0 +1,33 @@
+﻿@page "/ingredientrecipes/create"
+
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear Relacion entre Ingredientes y Recetas</h3>
+
+<IngredientRecipeForm @ref="ingredientRecipeForm" IngredientRecipe="ingredientRecipe" OnValidSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private IngredientRecipe ingredientRecipe = new();
+
+    private IngredientRecipeForm? ingredientRecipeForm;
+
+    private async Task Create()
+    {
+        var responseHttp = await repository.Post("/api/ingredientrecipes", ingredientRecipe);
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message);
+            return;
+        }
+        ingredientRecipeForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/ingredientrecipes");
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/ingredientrecipes");
+    }
+}

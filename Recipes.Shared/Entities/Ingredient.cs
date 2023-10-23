@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Recipes.Shared.Entities
 {
@@ -13,19 +8,12 @@ namespace Recipes.Shared.Entities
 
         [Display(Name = "Nombre del ingrediente")]
         [MaxLength(20)]
-        [Required (ErrorMessage ="El campo {0} es obligatorio")]
-        public string IngredientName { get; set; } =null;
-
-        [Display(Name = "Descripcion")]
-        [MaxLength(1000)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string Description { get; set; } =null;
+        public string? IngredientName { get; set; }
 
         [Display(Name = "Imagen")]
         [MaxLength(2000)]
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string ImageUrl { get; set; } =null;
-        public ICollection<Step>? Steps { get; set; }
-
+        public string? ImageUrl { get; set; }
+        public ICollection<IngredientRecipe>? IngredientRecipe { get; set; }
     }
 }

@@ -1,0 +1,35 @@
+﻿@page "/ingredients/create"
+
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear Ingrediente</h3>
+
+<IngredientForm @ref="ingredientForm" Ingredient="ingredient" OnValidSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private Ingredient ingredient = new();
+
+    private IngredientForm? ingredientForm;
+
+    private async Task Create()
+    {
+        var responseHttp = await repository.Post("/api/ingredients", ingredient);
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message);
+            return;
+        }
+        ingredientForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/ingredients");
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/ingredients");
+    }
+}
+
+

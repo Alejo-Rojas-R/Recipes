@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Recipes.Shared.Entities
 {
@@ -17,14 +12,14 @@ namespace Recipes.Shared.Entities
         public string? Title { get; set; }
 
         [Display(Name = "Descripcion de la receta")]
-        [MaxLength(1000)]
+        [DataType(DataType.MultilineText)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string? Description { get; set; }
 
         [Display(Name = "Dificultad de la receta")]
-        [Range(1,3, ErrorMessage ="El campo {0} debe estar en el rango de 1 a 3.")]
+        [MaxLength(15)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public int Difficulty { get; set; }
+        public string? Difficulty { get; set; }
 
         [Display(Name = "Fecha")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
@@ -34,10 +29,18 @@ namespace Recipes.Shared.Entities
 
         [Display(Name = "Imagen")]
         [MaxLength(2000)]
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string? ImageUrl { get; set; }
 
+        [Display(Name = "Tiempo aproximado")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        public int? Time { get; set; }
+
+        [Display(Name = "Porciones")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        public int? Portions { get; set; }
+
         public ICollection<RecipeCategory>? RecipeCategories { get; set; }
+        public ICollection<IngredientRecipe>? IngredientRecipe { get; set; }
         public ICollection<Review>? Reviews { get; set; }
         public ICollection<Step>? Steps { get; set; }
         public ICollection<Favorite>? Favorites { get; set; }
