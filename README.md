@@ -7,5 +7,4 @@
 
 ### Entity-Relationship Diagram
 
-![image](https://github.com/Alejo-Rojas-R/Recipes/assets/125615397/92adffc2-e6d0-4cef-80eb-2ff654cc70ae)
-
+![image](https://github.com/Alejo-Rojas-R/Recipes/assets/38369174/75d8e403-3aa1-4ce0-b511-58d8117e028c)
