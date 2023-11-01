@@ -38,6 +38,8 @@
 
   <ItemGroup>
     <Folder Include="Pages\Categories\" />
+    <Folder Include="Pages\UserRoles\" />
+    <Folder Include="Pages\Roles\" />
     <Folder Include="Pages\Users\" />
   </ItemGroup>
 
