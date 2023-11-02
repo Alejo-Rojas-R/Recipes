@@ -6,27 +6,27 @@
 <EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
     <div class="mb-3">
-        <label>Rol:</label>
-        <div>
-            <InputSelect class="form-control" @bind-Value="@UserRole.RoleId">
-                <option value="">Selecciona una receta</option>
-                @foreach (var role in Roles)
-                {
-                    <option value="@role.Id">@role.Name</option>
-                }
-            </InputSelect>
-            <ValidationMessage For="@(() => UserRole.RoleId)" />
-        </div>
         <label>Usuario:</label>
         <div>
             <InputSelect class="form-control" @bind-Value="@UserRole.UserId">
-                <option value="">Selecciona un usere</option>
+                <option value="">Selecciona un usuario</option>
                 @foreach (var user in Users)
                 {
                     <option value="@user.Id">@user.Name</option>
                 }
             </InputSelect>
             <ValidationMessage For="@(() => UserRole.UserId)" />
+        </div>
+        <label>Rol:</label>
+        <div>
+            <InputSelect class="form-control" @bind-Value="@UserRole.RoleId">
+                <option value="">Selecciona un rol</option>
+                @foreach (var role in Roles)
+                {
+                    <option value="@role.Id">@role.Name</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => UserRole.RoleId)" />
         </div>
     </div>
     <button class="btn btn-primary" type="submit">Guardar Cambios</button>
