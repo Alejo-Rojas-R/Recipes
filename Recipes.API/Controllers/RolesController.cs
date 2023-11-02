@@ -20,46 +20,46 @@ namespace Recipes.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            return Ok(await _context.Users.ToListAsync());
+            return Ok(await _context.Roles.ToListAsync());
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
-            if (user == null)
+            var role = await _context.Roles.FirstOrDefaultAsync(x => x.Id == id);
+            if (role == null)
             {
                 return NotFound();
             }
 
-            return Ok(user);
+            return Ok(role);
         }
 
         // Post- Create
         [HttpPost]
-        public async Task<ActionResult> Post(User user)
+        public async Task<ActionResult> Post(Role role)
         {
 
-            _context.Add(user);
+            _context.Add(role);
             await _context.SaveChangesAsync();
-            return Ok(user);
+            return Ok(role);
         }
 
         // Put-- update
         [HttpPut]
-        public async Task<ActionResult> Put(User user)
+        public async Task<ActionResult> Put(Role role)
         {
 
-            _context.Update(user);
+            _context.Update(role);
             await _context.SaveChangesAsync();
-            return Ok(user);
+            return Ok(role);
         }
 
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
 
-            var filaAfectada = await _context.Users
+            var filaAfectada = await _context.Roles
                 .Where(x => x.Id == id)
                 .ExecuteDeleteAsync();
 

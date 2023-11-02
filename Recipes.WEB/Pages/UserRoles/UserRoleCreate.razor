@@ -1,0 +1,33 @@
+﻿@page "/userroles/create"
+
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+<h3>Crear Relacion entre Usuarios y Roles</h3>
+
+<UserRoleForm @ref="userRoleForm" UserRole="userRole" OnValidSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private UserRole userRole = new();
+
+    private UserRoleForm? userRoleForm;
+
+    private async Task Create()
+    {
+        var responseHttp = await repository.Post("/api/userroles", userRole);
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message);
+            return;
+        }
+        userRoleForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/userroles");
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/userroles");
+    }
+}

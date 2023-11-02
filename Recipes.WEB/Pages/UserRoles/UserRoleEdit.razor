@@ -1,0 +1,69 @@
+﻿@page "/userroles/edit/{Id:int}"
+
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService swal
+
+<h3>Editar Roles de Usuario</h3>
+
+@if (userRole is null)
+{
+    <div class="align-items-center">
+        <img src="https://img.pikbest.com/png-images/20190918/cartoon-snail-loading-loading-gif-animation_2734139.png!bw700" />
+    </div>
+}
+else
+{
+    <UserRoleForm @ref="userRoleForm" UserRole="userRole" OnValidSubmit="Edit" ReturnAction="Return" />
+}
+
+@code {
+    private UserRole? userRole;
+    private UserRoleForm? userRoleForm;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var responseHttp = await repository.Get<UserRole>($"api/userroles/{Id}");
+
+        if (responseHttp.Error)
+        {
+            if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("userroles");
+            }
+            else
+            {
+                var errorMessage = await responseHttp.GetErrorMessageAsync();
+                await swal.FireAsync("Error", errorMessage, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            userRole = responseHttp.Response;
+        }
+    }
+
+    private async Task Edit()
+    {
+        var responseHttp = await repository.Put("api/userroles", userRole);
+
+        if (responseHttp.Error)
+        {
+            var errorMessage = await responseHttp.GetErrorMessageAsync();
+            await swal.FireAsync("Error", errorMessage, SweetAlertIcon.Error);
+        }
+        else
+        {
+            userRoleForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo("userroles");
+        }
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("userroles");
+    }
+}

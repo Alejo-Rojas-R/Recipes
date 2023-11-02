@@ -11,7 +11,7 @@ namespace Recipes.Shared.Entities
     {
         public int Id { get; set; }
 
-        [Display(Name = "Nombre del usuario")]
+        [Display(Name = "Nombre del rol")]
         [MaxLength(20)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string? Name { get; set; }
