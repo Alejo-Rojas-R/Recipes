@@ -7,9 +7,8 @@ namespace Recipes.API.Controllers
 {
     [ApiController]
     [Route("api/userroles")]
-    public class UserRolesController : Controller
+    public class UserRolesController : ControllerBase
     {
-
         private readonly DataContext _context;
 
         public UserRolesController(DataContext context)
@@ -20,46 +19,43 @@ namespace Recipes.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            return Ok(await _context.Users.ToListAsync());
+            return Ok(await _context.UserRoles.ToListAsync());
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
-            if (user == null)
+            var userRoles = await _context.UserRoles.FirstOrDefaultAsync(x => x.Id == id);
+            if (userRoles == null)
             {
                 return NotFound();
             }
 
-            return Ok(user);
+            return Ok(userRoles);
         }
 
         // Post- Create
         [HttpPost]
-        public async Task<ActionResult> Post(User user)
+        public async Task<ActionResult> Post(UserRole userRole)
         {
-
-            _context.Add(user);
+            _context.Add(userRole);
             await _context.SaveChangesAsync();
-            return Ok(user);
+            return Ok(userRole);
         }
 
         // Put-- update
         [HttpPut]
-        public async Task<ActionResult> Put(User user)
+        public async Task<ActionResult> Put(UserRole userRole)
         {
-
-            _context.Update(user);
+            _context.Update(userRole);
             await _context.SaveChangesAsync();
-            return Ok(user);
+            return Ok(userRole);
         }
 
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-
-            var filaAfectada = await _context.Users
+            var filaAfectada = await _context.UserRoles
                 .Where(x => x.Id == id)
                 .ExecuteDeleteAsync();
 
