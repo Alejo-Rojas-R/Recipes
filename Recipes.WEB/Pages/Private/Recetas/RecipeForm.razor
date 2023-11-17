@@ -34,12 +34,14 @@
             <InputText class="form-control" @bind-Value="@Recipe.ImageUrl" />
             <ValidationMessage For="@(() => Recipe.ImageUrl)" />
         </div>
+        <label>Time:</label>
         <div>
-            <InputNumber class="form-control" @bind-Value="@Recipe.ImageUrl" />
+            <InputNumber class="form-control" @bind-Value="@Recipe.Time" />
             <ValidationMessage For="@(() => Recipe.Time)" />
         </div>
+        <label>Portions:</label>
         <div>
-            <InputNumber class="form-control" @bind-Value="@Recipe.ImageUrl" />
+            <InputNumber class="form-control" @bind-Value="@Recipe.Portions" />
             <ValidationMessage For="@(() => Recipe.Portions)" />
         </div>
     </div>

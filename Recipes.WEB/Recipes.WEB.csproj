@@ -14,15 +14,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Pages\Categories\CategoriesIndex.razor" />
-    <None Include="Pages\Categories\CategoryCreate.razor" />
-    <None Include="Pages\Categories\CategoryEdit.razor" />
-    <None Include="Pages\Categories\CategoryForm.razor" />
+    <None Include="Pages\Private\Categories\CategoriesIndex.razor" />
+    <None Include="Pages\Private\Categories\CategoryCreate.razor" />
+    <None Include="Pages\Private\Categories\CategoryEdit.razor" />
+    <None Include="Pages\Private\Categories\CategoryForm.razor" />
     <None Include="Pages\Index.razor" />
-    <None Include="Pages\Users\UserCreate.razor" />
-    <None Include="Pages\Users\UserEdit.razor" />
-    <None Include="Pages\Users\UserForm.razor" />
-    <None Include="Pages\Users\UsersIndex.razor" />
+    <None Include="Pages\Private\Users\UserCreate.razor" />
+    <None Include="Pages\Private\Users\UserEdit.razor" />
+    <None Include="Pages\Private\Users\UserForm.razor" />
+    <None Include="Pages\Private\Users\UsersIndex.razor" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,8 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Categories\" />
-    <Folder Include="Pages\Users\" />
+    <Folder Include="Pages\Private\Categories\" />
   </ItemGroup>
 
 </Project>
