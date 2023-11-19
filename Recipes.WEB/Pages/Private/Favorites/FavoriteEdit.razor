@@ -1,0 +1,67 @@
+﻿@page "/favorites/edit/{Id:int}"
+
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService swal
+
+<h3>Editar Favoritos</h3>
+
+@if (favorite is null)
+{
+    <div class="spinner" />
+}
+else
+{
+    <FavoriteForm @ref="favoritesForm" Favorite="favorite" OnValidSubmit="Edit" ReturnAction="Return" />
+}
+
+@code {
+    private Favorite? favorite;
+    private FavoriteForm? favoritesForm;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var responseHttp = await repository.Get<Favorite>($"api/favorites/{Id}");
+
+        if (responseHttp.Error)
+        {
+            if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("favorites");
+            }
+            else
+            {
+                var errorMessage = await responseHttp.GetErrorMessageAsync();
+                await swal.FireAsync("Error", errorMessage, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            favorite = responseHttp.Response;
+        }
+    }
+
+    private async Task Edit()
+    {
+        var responseHttp = await repository.Put("api/favorites", favorite);
+
+        if (responseHttp.Error)
+        {
+            var errorMessage = await responseHttp.GetErrorMessageAsync();
+            await swal.FireAsync("Error", errorMessage, SweetAlertIcon.Error);
+        }
+        else
+        {
+            favoritesForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo("favorites");
+        }
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("favorites");
+    }
+}

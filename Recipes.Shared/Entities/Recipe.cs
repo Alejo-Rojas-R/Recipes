@@ -39,6 +39,8 @@ namespace Recipes.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public int? Portions { get; set; }
 
+        public User? User { get; set; }
+
         public ICollection<RecipeCategory>? RecipeCategories { get; set; }
         public ICollection<IngredientRecipe>? IngredientRecipe { get; set; }
         public ICollection<Review>? Reviews { get; set; }

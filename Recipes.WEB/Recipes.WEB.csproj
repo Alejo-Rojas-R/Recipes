@@ -14,31 +14,54 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Pages\Categories\CategoriesIndex.razor" />
-    <None Include="Pages\Categories\CategoryCreate.razor" />
-    <None Include="Pages\Categories\CategoryEdit.razor" />
-    <None Include="Pages\Categories\CategoryForm.razor" />
     <None Include="Pages\Index.razor" />
-    <None Include="Pages\Users\UserCreate.razor" />
-    <None Include="Pages\Users\UserEdit.razor" />
-    <None Include="Pages\Users\UserForm.razor" />
-    <None Include="Pages\Users\UsersIndex.razor" />
+    <None Include="Pages\Private\Categories\CategoriesIndex.razor" />
+    <None Include="Pages\Private\Categories\CategoryCreate.razor" />
+    <None Include="Pages\Private\Categories\CategoryEdit.razor" />
+    <None Include="Pages\Private\Categories\CategoryForm.razor" />
+    <None Include="Pages\Private\Favorites\FavoriteCreate.razor" />
+    <None Include="Pages\Private\Favorites\FavoriteEdit.razor" />
+    <None Include="Pages\Private\Favorites\FavoriteForm.razor" />
+    <None Include="Pages\Private\Favorites\FavoritesIndex.razor" />
+    <None Include="Pages\Private\IngredientRecipes\IngredientRecipeCreate.razor" />
+    <None Include="Pages\Private\IngredientRecipes\IngredientRecipeEdit.razor" />
+    <None Include="Pages\Private\IngredientRecipes\IngredientRecipeForm.razor" />
+    <None Include="Pages\Private\IngredientRecipes\IngredientRecipesIndex.razor" />
+    <None Include="Pages\Private\Ingredients\IngredientCreate.razor" />
+    <None Include="Pages\Private\Ingredients\IngredientEdit.razor" />
+    <None Include="Pages\Private\Ingredients\IngredientForm.razor" />
+    <None Include="Pages\Private\Ingredients\IngredientsIndex.razor" />
+    <None Include="Pages\Private\Recetas\RecipeCreate.razor" />
+    <None Include="Pages\Private\Recetas\RecipeEdit.razor" />
+    <None Include="Pages\Private\Recetas\RecipeForm.razor" />
+    <None Include="Pages\Private\Recetas\RecipesIndex.razor" />
+    <None Include="Pages\Private\RecipeCategories\RecipeCategoriesIndex.razor" />
+    <None Include="Pages\Private\RecipeCategories\RecipeCategoryCreate.razor" />
+    <None Include="Pages\Private\RecipeCategories\RecipeCategoryEdit.razor" />
+    <None Include="Pages\Private\RecipeCategories\RecipeCategoryForm.razor" />
+    <None Include="Pages\Private\Reviews\ReviewCreate.razor" />
+    <None Include="Pages\Private\Reviews\ReviewEdit.razor" />
+    <None Include="Pages\Private\Reviews\ReviewForm.razor" />
+    <None Include="Pages\Private\Reviews\ReviewsIndex.razor" />
+    <None Include="Pages\Private\Steps\StepCreate.razor" />
+    <None Include="Pages\Private\Steps\StepEdit.razor" />
+    <None Include="Pages\Private\Steps\StepForm.razor" />
+    <None Include="Pages\Private\Steps\StepsIndex.razor" />
+    <None Include="Pages\Public\Auth\Login.razor" />
+    <None Include="Pages\Public\Auth\Register.razor" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CurrieTechnologies.Razor.SweetAlert2" Version="5.5.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.11" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.14" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="7.0.14" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.12" PrivateAssets="all" />
     <PackageReference Include="SweetAlert" Version="1.0.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Recipes.Shared\Recipes.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\Categories\" />
-    <Folder Include="Pages\Users\" />
   </ItemGroup>
 
 </Project>

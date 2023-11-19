@@ -1,0 +1,67 @@
+﻿@page "/reviews/edit/{Id:int}"
+
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService swal
+
+<h3>Editar Categoría de Receta</h3>
+
+@if (review is null)
+{
+    <div class="spinner" />
+}
+else
+{
+    <ReviewForm @ref="reviewsForm" Review="review" OnValidSubmit="Edit" ReturnAction="Return" />
+}
+
+@code {
+    private Review? review;
+    private ReviewForm? reviewsForm;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var responseHttp = await repository.Get<Review>($"api/reviews/{Id}");
+
+        if (responseHttp.Error)
+        {
+            if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("reviews");
+            }
+            else
+            {
+                var errorMessage = await responseHttp.GetErrorMessageAsync();
+                await swal.FireAsync("Error", errorMessage, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            review = responseHttp.Response;
+        }
+    }
+
+    private async Task Edit()
+    {
+        var responseHttp = await repository.Put("api/reviews", review);
+
+        if (responseHttp.Error)
+        {
+            var errorMessage = await responseHttp.GetErrorMessageAsync();
+            await swal.FireAsync("Error", errorMessage, SweetAlertIcon.Error);
+        }
+        else
+        {
+            reviewsForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo("reviews");
+        }
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("reviews");
+    }
+}

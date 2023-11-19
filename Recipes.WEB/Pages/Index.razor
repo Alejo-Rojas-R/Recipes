@@ -1,11 +1,88 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService swal
 
-<h1>Reseñas de Recetas de comida</h1>
+<AuthorizeView>
+    <Authorized>
+        <p>Estas autenticado, @context.User.Identity?.Name</p>
+    </Authorized>
+    <NotAuthorized>
+        <p>No estas autorizado</p>
+    </NotAuthorized>
+</AuthorizeView>
 
-<ul>
-    <li>Eliana Restrepo Duque</li>
-    <li>Diego Zapata Mazo</li>
-    <li>Alejandro Rojas Rodriguez</li>
-</ul>
+@if (Categories is null) {
+    <div class="spinner"/>
+} else {
+    <GenericList MyList="Categories">
+        <Body>
+            <div class="row">
+                @foreach (var category in Categories)
+                {
+                    var recipesForCategory = GetRecipes(category.Id);
+
+                    @if (recipesForCategory.Any())
+                    {
+                        <h3 class="mb-4 mt-4">@category.Name</h3>
+
+                        <!-- Featured Recipes for the Category -->
+                        <div class="row">
+                            @foreach (var recipe in recipesForCategory)
+                            {
+                                <div class="col-lg-4 mb-4">
+                                    <a href="/recipes/details/@recipe.Id" class="card text-decoration-none">
+                                        <img src="@recipe.ImageUrl" class="card-img-top" alt="Recipe Image">
+                                        <div class="card-body">
+                                            <h5 class="card-title line-ellipsis text-black">@recipe.Title</h5>
+                                            <p class="card-text multiline-ellipsis text-black">@recipe.Description</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    }
+                }
+            </div>
+        </Body>
+    </GenericList>
+}
+
+@code {
+    public List<RecipeCategory>? RecipeCategories { get; set; }
+    public List<Recipe>? Recipes { get; set; }
+    public List<Category>? Categories { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await Load();
+    }
+
+    private async Task Load()
+    {
+        var recipeCategoryResponse = await repository.Get<List<RecipeCategory>>("api/recipecategories");
+        RecipeCategories = recipeCategoryResponse.Response!;
+
+        var recipeResponse = await repository.Get<List<Recipe>>("api/recipes");
+        Recipes = recipeResponse.Response!;
+
+        var categoryResponse = await repository.Get<List<Category>>("api/categories");
+        Categories = categoryResponse.Response!;
+    }
+
+    private List<Recipe> GetRecipes(int categoryId)
+    {
+        var recipeIds = RecipeCategories
+            .Where(rc => rc.CategoryId == categoryId)
+            .Take(3)
+            .Select(rc => rc.RecipeId)
+            .ToList();
+
+        var recipesOfCategory = Recipes
+            .Where(r => recipeIds.Contains(r.Id))
+            .ToList();
+
+        return recipesOfCategory;
+    }
+}

@@ -1,0 +1,67 @@
+﻿@page "/recipecategories/edit/{Id:int}"
+
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService swal
+
+<h3>Editar Categoría de Receta</h3>
+
+@if (recipeCategory is null)
+{
+    <div class="spinner" />
+}
+else
+{
+    <RecipeCategoryForm @ref="recipeCategoryForm" RecipeCategory="recipeCategory" OnValidSubmit="Edit" ReturnAction="Return" />
+}
+
+@code {
+    private RecipeCategory? recipeCategory;
+    private RecipeCategoryForm? recipeCategoryForm;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var responseHttp = await repository.Get<RecipeCategory>($"api/recipecategories/{Id}");
+
+        if (responseHttp.Error)
+        {
+            if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("recipecategories");
+            }
+            else
+            {
+                var errorMessage = await responseHttp.GetErrorMessageAsync();
+                await swal.FireAsync("Error", errorMessage, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            recipeCategory = responseHttp.Response;
+        }
+    }
+
+    private async Task Edit()
+    {
+        var responseHttp = await repository.Put("api/recipecategories", recipeCategory);
+
+        if (responseHttp.Error)
+        {
+            var errorMessage = await responseHttp.GetErrorMessageAsync();
+            await swal.FireAsync("Error", errorMessage, SweetAlertIcon.Error);
+        }
+        else
+        {
+            recipeCategoryForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo("recipecategories");
+        }
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("recipecategories");
+    }
+}
