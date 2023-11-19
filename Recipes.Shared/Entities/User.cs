@@ -1,11 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using Recipes.Shared.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Recipes.Shared.Entities
 {
-    public class User
+    public class User : IdentityUser
     {
-        public int Id { get; set; }
-
         [Display(Name = "Nombre del usuario")]
         [MaxLength(20)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
@@ -16,22 +16,19 @@ namespace Recipes.Shared.Entities
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string? LastName { get; set; }
 
-        [Display(Name = "Correo electronico del usuario")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string? Email { get; set; }
-
-        [Display(Name = "Contraseña del usuario")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [StringLength(20, MinimumLength = 6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres")]
-        [DataType(DataType.Password)]
-        public string? Password { get; set; }
-
         [Display(Name = "Imagen")]
         [MaxLength(2000)]
         public string? ImageUrl { get; set; }
 
+        [Display(Name = "Tipo de usuario")]
+        public UserType UserType { get; set; }
+
+        [Display(Name = "Usuario")]
+        public string FullName => $"{Name} {LastName}";
+
         public ICollection<Favorite>? Favorites { get; set; }
         public ICollection<Review>? Reviews { get; set; }
-        public ICollection<UserRole>? UserRoles { get; set; }
+        public ICollection<Recipe>? Recipes { get; set; }
+        //public ICollection<UserRole>? UserRoles { get; set; }
     }
 }
