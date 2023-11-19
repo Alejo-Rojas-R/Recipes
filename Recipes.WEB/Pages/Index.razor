@@ -4,38 +4,50 @@
 @inject NavigationManager navigationManager
 @inject SweetAlertService swal
 
-<!-- Featured Categories -->
-<GenericList MyList="Categories" Loading="LoadingCategories" NoRecords="NoCategoryRecords">
-    <Body>
-        <div class="row">
-            @foreach (var category in Categories)
-            {
-                var recipesForCategory = GetRecipes(category.Id);
+<AuthorizeView>
+    <Authorized>
+        <p>Estas autenticado, @context.User.Identity?.Name</p>
+    </Authorized>
+    <NotAuthorized>
+        <p>No estas autorizado</p>
+    </NotAuthorized>
+</AuthorizeView>
 
-                @if (recipesForCategory.Any())
+@if (Categories is null) {
+    <div class="spinner"/>
+} else {
+    <GenericList MyList="Categories">
+        <Body>
+            <div class="row">
+                @foreach (var category in Categories)
                 {
-                    <h3 class="mb-4 mt-4">@category.Name</h3>
+                    var recipesForCategory = GetRecipes(category.Id);
 
-                    <!-- Featured Recipes for the Category -->
-                    <div class="row">
-                        @foreach (var recipe in recipesForCategory)
-                        {
-                            <div class="col-lg-4 mb-4">
-                                <a href="/recipes/details/@recipe.Id" class="card text-decoration-none">
-                                    <img src="@recipe.ImageUrl" class="card-img-top" alt="Recipe Image">
-                                    <div class="card-body">
-                                        <h5 class="card-title line-ellipsis text-black">@recipe.Title</h5>
-                                        <p class="card-text multiline-ellipsis text-black">@recipe.Description</p>
-                                    </div>
-                                </a>
-                            </div>
-                        }
-                    </div>
+                    @if (recipesForCategory.Any())
+                    {
+                        <h3 class="mb-4 mt-4">@category.Name</h3>
+
+                        <!-- Featured Recipes for the Category -->
+                        <div class="row">
+                            @foreach (var recipe in recipesForCategory)
+                            {
+                                <div class="col-lg-4 mb-4">
+                                    <a href="/recipes/details/@recipe.Id" class="card text-decoration-none">
+                                        <img src="@recipe.ImageUrl" class="card-img-top" alt="Recipe Image">
+                                        <div class="card-body">
+                                            <h5 class="card-title line-ellipsis text-black">@recipe.Title</h5>
+                                            <p class="card-text multiline-ellipsis text-black">@recipe.Description</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    }
                 }
-            }
-        </div>
-    </Body>
-</GenericList>
+            </div>
+        </Body>
+    </GenericList>
+}
 
 @code {
     public List<RecipeCategory>? RecipeCategories { get; set; }
@@ -73,8 +85,4 @@
 
         return recipesOfCategory;
     }
-
-    // Loading placeholders for each GenericList instance
-    private RenderFragment LoadingCategories => builder => builder.AddContent(0, "Loading categories...");
-    private RenderFragment NoCategoryRecords => builder => builder.AddContent(0, "No hay categorías para mostrar...");
 }

@@ -56,8 +56,8 @@ namespace Market.API.Controllers
             {
                 new Claim(ClaimTypes.Name, user.Email!),
                 new Claim(ClaimTypes.Role, user.UserType.ToString()),
-                new Claim("Name", user.Name),
-                new Claim("LastName", user.LastName),
+                new Claim("Name", user.Name!),
+                new Claim("LastName", user.LastName!),
                 new Claim("ImageUrl", user.ImageUrl ?? string.Empty)
             };
 
