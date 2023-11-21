@@ -1,13 +1,4 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Recipes.WEB</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
-
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+﻿<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
@@ -19,17 +10,17 @@
             <Authorized>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="recipeCategories">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Categorias de Recetas
+                        <span class="oi oi-tags" aria-hidden="true"></span> Categorias de Recetas
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="ingredients">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Ingredientes
+                        <span class="oi oi-pie-chart" aria-hidden="true"></span> Ingredientes
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="ingredientRecipes">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Ingredientes de Recetas
+                        <span class="oi oi-pie-chart" aria-hidden="true"></span> Ingredientes de Recetas
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
@@ -39,34 +30,34 @@
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="recipes">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Recetas
+                        <span class="oi oi-book" aria-hidden="true"></span> Recetas
                     </NavLink>
                 </div>
             </Authorized>
         </AuthorizeView>
         <div class="nav-item px-3">
-            <hr />
+            <hr class="text-white" />
         </div>
         <AuthorizeView Roles="Admin">
             <Authorized>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="categories">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Categorias
+                        <span class="oi oi-tags" aria-hidden="true"></span> Categorias
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="favorites">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Favoritos
+                        <span class="oi oi-heart" aria-hidden="true"></span> Favoritos
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="reviews">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Reseñas
+                        <span class="oi oi-pencil" aria-hidden="true"></span> Reseñas
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="users">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Users
+                        <span class="oi oi-people" aria-hidden="true"></span> Users
                     </NavLink>
                 </div>
             </Authorized>
