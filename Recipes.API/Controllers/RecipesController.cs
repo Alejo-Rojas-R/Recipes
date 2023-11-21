@@ -43,9 +43,11 @@ namespace Recipes.API.Controllers
         [HttpPost]
         public async Task<ActionResult> Post(Recipe recipe)
         {
+            recipe.Date = DateTime.Now;
 
             _context.Add(recipe);
             await _context.SaveChangesAsync();
+
             return Ok(recipe);
         }
 
@@ -53,9 +55,11 @@ namespace Recipes.API.Controllers
         [HttpPut]
         public async Task<ActionResult> Put(Recipe recipe)
         {
+            recipe.Date = DateTime.Now;
 
             _context.Update(recipe);
             await _context.SaveChangesAsync();
+
             return Ok(recipe);
         }
 

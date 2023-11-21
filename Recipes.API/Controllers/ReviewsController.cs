@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Recipes.API.Data;
 using Recipes.Shared.Entities;
@@ -6,6 +8,7 @@ using Recipes.Shared.Entities;
 namespace Recipes.API.Controllers
 {
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/reviews")]
     public class ReviewsController : ControllerBase
     {
@@ -43,6 +46,7 @@ namespace Recipes.API.Controllers
         [HttpPost]
         public async Task<ActionResult> Post(Review review)
         {
+            review.Date = DateTime.Now;
 
             _context.Add(review);
             await _context.SaveChangesAsync();
@@ -53,6 +57,7 @@ namespace Recipes.API.Controllers
         [HttpPut]
         public async Task<ActionResult> Put(Review review)
         {
+            review.Date = DateTime.Now;
 
             _context.Update(review);
             await _context.SaveChangesAsync();

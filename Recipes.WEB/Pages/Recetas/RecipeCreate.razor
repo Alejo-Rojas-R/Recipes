@@ -1,0 +1,33 @@
+﻿@page "/recipes/create"
+
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+@attribute [Authorize(Roles = "Admin, User")]
+<h3>Crear Receta</h3>
+
+<RecipeForm @ref="recipeForm" Recipe="recipe" OnValidSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private Recipe recipe = new();
+
+    private RecipeForm? recipeForm;
+
+    private async Task Create()
+    {
+        var responseHttp = await repository.Post("/api/recipes", recipe);
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message);
+            return;
+        }
+        recipeForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/recipes");
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/recipes");
+    }
+}

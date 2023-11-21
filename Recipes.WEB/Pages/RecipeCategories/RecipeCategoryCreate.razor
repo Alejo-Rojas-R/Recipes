@@ -1,0 +1,33 @@
+﻿@page "/recipecategories/create"
+
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+@attribute [Authorize(Roles = "Admin, User")]
+<h3>Crear Relacion entre Categoría y Receta</h3>
+
+<RecipeCategoryForm @ref="recipeCategoryForm" RecipeCategory="recipeCategory" OnValidSubmit="Create" ReturnAction="Return" />
+
+@code {
+    private RecipeCategory recipeCategory = new();
+
+    private RecipeCategoryForm? recipeCategoryForm;
+
+    private async Task Create()
+    {
+        var responseHttp = await repository.Post("/api/recipecategories", recipeCategory);
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message);
+            return;
+        }
+        recipeCategoryForm!.FormPostedSuccessfully = true;
+        navigationManager.NavigateTo("/recipecategories");
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/recipecategories");
+    }
+}

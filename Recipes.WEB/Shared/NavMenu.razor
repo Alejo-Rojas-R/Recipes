@@ -14,46 +14,63 @@
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </div>
+
+        <AuthorizeView Roles="User, Admin">
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="recipeCategories">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Categorias de Recetas
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="ingredients">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Ingredientes
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="ingredientRecipes">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Ingredientes de Recetas
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="steps">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Pasos
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="recipes">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Recetas
+                    </NavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="categories">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Categorias
-            </NavLink>
+            <hr />
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="recipeCategories">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Categorias de Recetas
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="favorites">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Favoritos
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="ingredients">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Ingredientes
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="ingredientRecipes">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Ingredientes de Recetas
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="steps">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Pasos
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="recipes">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Recetas
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="reviews">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Reseñas
-            </NavLink>
-        </div>
+        <AuthorizeView Roles="Admin">
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="categories">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Categorias
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="favorites">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Favoritos
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="reviews">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Reseñas
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="users">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Users
+                    </NavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
     </nav>
 </div>
 

@@ -1,0 +1,315 @@
+﻿@page "/recipes/details/{RecipeId:int}"
+
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService sweetAlertService
+
+@if (Recipe is null)
+{
+    <div class="spinner" />
+} else {
+    <div class="container bg-light p-5 rounded-3">
+        <div class="row">
+            <div class="col-md-6 align-self-md-center p-5 d-flex flex-column gap-2">
+                <h1 class="text-danger m-0">@Recipe.Name</h1>
+
+                <div class="d-flex gap-2 flex-wrap">
+                    <div><i class="oi oi-thumb-up" /> @Recipe.Difficulty </div>
+                    <div><i class="oi oi-clock" /> @Recipe.Time mins</div>
+                    <div><i class="oi oi-person" /> @GetUserName(Recipe?.User?.Id) </div>
+                </div>
+
+                <div class="d-flex flex-wrap align-items-center">
+                    @{
+                        var (score, count) = GetScore();
+                        for (int i = 0; i < 5; i++)
+                        {
+                            <i class="oi oi-star @(i < score ? "text-danger" : "text-white")" />
+                        }
+                        <div>(@count)</div>
+                    }
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+                <img class="img img-fluid rounded-3 shadow" src="@Recipe.ImageUrl" alt="" />
+            </div>
+        </div>
+    </div>
+
+    <p class="mt-4">@Recipe.Description</p>
+
+    <div class="container border border-danger shadow-sm p-3 rounded-3 mt-4 mb-4">
+
+        <div class="d-flex align-items-center gap-1">
+            <h3 class="text-danger">Ingredientes</h3>
+            <i class="oi oi-pie-chart" /> @Recipe.Portions Porciones 
+        </div>
+
+            
+        <div class="row">
+        @{
+            var ingredients = GetRecipeIngredients();
+            int itemsPerColumn = (int)Math.Ceiling((double)ingredients.Count() / 3);
+
+            @for (int i = 0; i < 3; i++)
+            {
+                <div class="col-md-4 p-0">
+                    <ul>
+                        @for (int j = i * itemsPerColumn; j < Math.Min((i + 1) * itemsPerColumn, ingredients.Count()); j++)
+                        {
+                            <li>@ingredients[j].quantity - @ingredients[j].ingredient.Name</li>
+                        }
+                    </ul>
+                </div>
+            }
+        }
+        </div>
+    </div>
+
+    <h3 class="text-danger mt-4">Pasos</h3>
+
+    <div>
+        @foreach (var step in GetRecipeSteps())
+        {
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex align-items-start gap-2"><div class="border border-2 border-danger rounded-circle px-2 text-danger">@step.Order</div><p>@step.Description</p></div>
+                </div>
+
+                @if (@step.ImageUrl != null)
+                {
+                    <div class="col">
+                        <img class="img img-fluid rounded-3 shadow" src="@step.ImageUrl" />
+                    </div>
+                }
+                
+            </div>
+            
+            <hr class="solid"/>
+        }
+    </div>
+
+    <div><i class="oi oi-calendar" /> @Recipe.Date.ToString("MMMM dd, yyyy")</div>
+
+    <div class="d-flex gap-2 mt-3">
+        @foreach (var tag in GetRecipeTags())
+        {
+            <div class="rounded-3 bg-danger text-white d-flex gap-2 px-3 py-1 align-items-center">
+                <div><i class="oi oi-tag pr-2" /></div>
+                <div>@tag.Name</div>
+            </div>
+        }
+    </div>
+
+    <div class="mt-3">
+        <h3 class="text-danger">Comentarios:</h3>
+        @foreach (var review in GetRecipeReviews())
+        {
+            <div class="bg-light rounded-3 shadow-sm mt-4 p-3">
+                <strong>@GetUserName(review.UserId)</strong>
+
+                <div class="d-flex flex-wrap align-items-center">
+                    @{
+                        for (int j = 0; j < 5; j++)
+                        {
+                            <i class="oi oi-star @(j < @review.Score ? "text-danger" : "text-white")" />
+                        }
+                    }
+                </div>
+                <br />
+
+                <p>@review.Comment</p>
+
+                <p>@review.Date</p>
+            </div>
+        }
+
+        <EditForm EditContext="editContext" OnValidSubmit="Create" Model="@review">
+            <DataAnnotationsValidator />
+            <div class="mb-3">
+                <label>Comment:</label>
+                <div>
+                    <InputTextArea class="form-control" @bind-Value="@review.Comment" />
+                    <ValidationMessage For="@(() => review.Comment)" />
+                </div>
+                <label>Score:</label>
+                <div>
+                    <InputNumber class="form-control" @bind-Value="@review.Score" />
+                    <ValidationMessage For="@(() => review.Score)" />
+                </div>
+            </div>
+            <button class="btn btn-danger" type="submit">Publicar</button>
+        </EditForm>
+
+    </div>
+}
+@code {
+    [Parameter]
+    public int RecipeId { get; set; }
+
+    public Recipe? Recipe { get; set; }
+
+    public List<Review>? Reviews { get; set; }
+
+    public List<IngredientRecipe>? IngredientRecipes { get; set; }
+
+    public List<Ingredient>? Ingredients { get; set; }
+
+    public List<Step>? Steps { get; set; }
+
+    public List<Category>? Categories { get; set; }
+
+    public List<RecipeCategory>? RecipeCategories { get; set; }
+
+    private Review review = new();
+
+    private EditContext? editContext;
+
+    private async Task Create()
+    {
+        var result = await sweetAlertService.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = "¿Estas seguro que deseas dejar esta reseña?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true,
+                CancelButtonText = "No",
+                ConfirmButtonText = "Si"
+            });
+
+        var confirm = !string.IsNullOrEmpty(result.Value);
+        if (!confirm)
+        {
+            return;
+        }
+        
+        review.Date = DateTime.Now;
+        review.RecipeId = RecipeId;
+        //review.UserId = user.FindFirst(ClaimTypes.Email)?.Value;
+
+        var responseHttp = await repository.Post("/api/reviews", review);
+        if (responseHttp.Error)
+        {
+            var message = await responseHttp.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message);
+            return;
+        }
+
+        // Reload the data or update the reviews list
+        await Load();
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("/reviews");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Load();
+    }
+
+    private async Task Load()
+    {
+        var recipeResponse = await repository.Get<Recipe>($"api/recipes/{RecipeId}");
+        Recipe = recipeResponse.Response!;
+
+        var reviewResponse = await repository.Get<List<Review>>("api/reviews");
+        Reviews = reviewResponse.Response!;
+
+        var ingredientRecipeResponse = await repository.Get<List<IngredientRecipe>>("api/ingredientrecipes");
+        IngredientRecipes = ingredientRecipeResponse.Response!;
+
+        var ingredientResponse = await repository.Get<List<Ingredient>>("api/ingredients");
+        Ingredients = ingredientResponse.Response!;
+
+        var stepResponse = await repository.Get<List<Step>>("api/steps");
+        Steps = stepResponse.Response!;
+
+        var categoryResponse = await repository.Get<List<Category>>("api/categories");
+        Categories = categoryResponse.Response!;
+
+        var recipeCategoryResponse = await repository.Get<List<RecipeCategory>>("api/recipecategories");
+        RecipeCategories = recipeCategoryResponse.Response!;
+    }
+
+    private string GetUserName(string userId)
+    {
+        var user = Recipe?.User?.FullName;
+        /*
+        var userResponse = await repository.Get<User>($"api/users/{userId}");
+        var user = userResponse.Response;
+        */
+        return (user != null) ? user : "Unknown User";
+    }
+
+    private (int score, int count) GetScore()
+    {
+        var scores = Reviews
+            ?.Where(rc => rc.RecipeId == RecipeId)
+            ?.Select(rc => rc.Score)
+            .ToList();
+
+        if (scores == null || scores.Count == 0)
+        {
+            return (0, 0);
+        }
+
+        var score = scores.Sum() / scores.Count;
+
+        return (score, scores.Count);
+    }
+
+    private List<Category> GetRecipeTags()
+    {
+        var recipeIds = RecipeCategories
+            .Where(rc => rc.RecipeId == RecipeId)
+            .Select(rc => rc.CategoryId)
+            .ToList();
+
+        var tagsOfRecipe = Categories
+            .Where(r => recipeIds.Contains(r.Id))
+            .ToList();
+
+        return tagsOfRecipe;
+    }
+
+    private List<(Ingredient ingredient, string? quantity)> GetRecipeIngredients()
+    {
+        var ingredientRecipe = IngredientRecipes
+            .Where(ir => ir.RecipeId == RecipeId)
+            .ToList();
+
+        var ingredientIds = ingredientRecipe.Select(ir => ir.IngredientId).ToList();
+
+        var ingredients = Ingredients
+            .Where(i => ingredientIds.Contains(i.Id))
+            .Select(i => (
+                ingredient: i,
+                quantity: ingredientRecipe.FirstOrDefault(ir => ir.IngredientId == i.Id)?.Quantity
+            ))
+            .ToList();
+        return ingredients;
+    }
+
+    private List<Step> GetRecipeSteps()
+    {
+        var steps = Steps
+            .Where(rc => rc.RecipeId == RecipeId)
+            .ToList();
+
+        return steps;
+    }
+
+    private List<Review> GetRecipeReviews()
+    {
+        var reviews = Reviews
+            ?.Where(rc => rc.RecipeId == RecipeId)
+            .ToList();
+
+        return reviews ?? new List<Review>();
+    }
+
+}

@@ -29,6 +29,5 @@ namespace Recipes.Shared.Entities
         public ICollection<Favorite>? Favorites { get; set; }
         public ICollection<Review>? Reviews { get; set; }
         public ICollection<Recipe>? Recipes { get; set; }
-        //public ICollection<UserRole>? UserRoles { get; set; }
     }
 }

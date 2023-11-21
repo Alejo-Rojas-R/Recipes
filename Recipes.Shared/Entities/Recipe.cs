@@ -9,7 +9,7 @@ namespace Recipes.Shared.Entities
         [Display(Name = "Titulo de la receta")]
         [MaxLength(200)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string? Title { get; set; }
+        public string? Name { get; set; }
 
         [Display(Name = "Descripcion de la receta")]
         [DataType(DataType.MultilineText)]
@@ -40,6 +40,7 @@ namespace Recipes.Shared.Entities
         public int? Portions { get; set; }
 
         public User? User { get; set; }
+        public string? UserId { get; set; }
 
         public ICollection<RecipeCategory>? RecipeCategories { get; set; }
         public ICollection<IngredientRecipe>? IngredientRecipe { get; set; }

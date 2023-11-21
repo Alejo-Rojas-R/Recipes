@@ -1,0 +1,124 @@
+﻿@page "/favorites"
+
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService swal
+@attribute [Authorize(Roles = "Admin")]
+<h3>Favoritos</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/favorites/create">Nuevo Favorito</a>
+</div>
+
+<GenericList MyList="Favorites">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Receta</th>
+                    <th>User</th>
+                    <th>Date</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var favorite in Favorites!)
+                {
+                    <tr>
+                        <td>
+                            @GetRecipeTitle(favorite.RecipeId)
+                        </td>
+                        <td>
+                            @GetUserName(favorite.UserId)
+                        </td>
+                        <td>
+                            @favorite.Date
+                        </td>
+                        <td>
+                            <a href="/favorites/edit/@favorite.Id" class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger" @onclick=@(() => Delete(favorite))>Borrar</button>
+
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </Body>
+
+</GenericList>
+
+@code {
+    public List<Favorite>? Favorites { get; set; }
+    public List<Recipe>? Recipes { get; set; }
+    public List<User>? Users { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Load();
+    }
+
+    private async Task Load()
+    {
+        var favoriteResponse = await repository.Get<List<Favorite>>("api/favorites");
+        Favorites = favoriteResponse.Response!;
+
+        var recipeResponse = await repository.Get<List<Recipe>>("api/recipes");
+        Recipes = recipeResponse.Response!;
+
+        var userResponse = await repository.Get<List<User>>("api/users");
+        Users = userResponse.Response!;
+    }
+
+    private string GetRecipeTitle(int recipeId)
+    {
+        var recipe = Recipes.FirstOrDefault(r => r.Id == recipeId);
+        return recipe != null ? recipe.Name : string.Empty;
+    }
+
+    private string GetUserName(string userId)
+    {
+        var user = Users.FirstOrDefault(u => u.Id == userId.ToString());
+        return user != null ? $"{user.Name} {user.LastName}" : string.Empty;
+    }
+
+    private async Task Delete(Favorite favorite)
+    {
+        var result = await swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = "¿Está seguro de que desea borrar el registro?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true
+            });
+
+        var confirm = string.IsNullOrEmpty(result.Value);
+
+        if (confirm)
+        {
+            return;
+        }
+
+        var responseHTTP = await repository.Delete($"api/favorites/{favorite.Id}");
+
+        if (responseHTTP.Error)
+        {
+            if (responseHTTP.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("/");
+            }
+            else
+            {
+                var errorMessage = await responseHTTP.GetErrorMessageAsync();
+                await swal.FireAsync("Error", errorMessage, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            await Load();
+        }
+    }
+}
