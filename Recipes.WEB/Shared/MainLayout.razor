@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
+
     <AuthorizeView Roles="Admin, User">
         <Authorized>
             <div class="sidebar">
@@ -10,10 +11,23 @@
     </AuthorizeView>
     <main>
         <div class="top-row px-4">
-            <a href="/"><oi class="oi oi-home pe-4"/></a>
-            <AuthLinks />
+            <a href="/"><oi class="oi oi-home pe-4 text-danger" /></a>
+            <AuthorizeView>
+                <Authorized>
+                    <span>Hola, @context.User.Identity!.Name</span>
+                    <a href="Logout" class="nav-link btn btn-link"><oi class="oi oi-account-logout pe-2 text-danger" /></a>
+                </Authorized>
+                <NotAuthorized>
+                    <a href="Register" class="nav-link btn btn-link text-danger">Registro</a>
+                    <a href="Login" class="nav-link btn btn-link"><oi class="oi oi-account-login pe-2 text-danger" /></a>
+                </NotAuthorized>
+            </AuthorizeView>
         </div>
 
+        <div class="main-header text-center">
+            <img class="img-fluid" src="/recipes-header.jpg" />
+        </div>
+       
         <article class="container content px-4 py-5">
             @Body
         </article>

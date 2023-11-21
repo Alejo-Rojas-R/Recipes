@@ -128,3 +128,13 @@ a, .btn-link {
 .card:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Customize the shadow effect as needed */
 }
+
+.main-header {
+    background-color: #f0f0f0;
+}
+
+    .main-header img {
+        max-height: 300px;
+        box-shadow: inset 0 0 10px #311b0b;
+    }
+

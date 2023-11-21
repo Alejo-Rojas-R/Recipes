@@ -9,7 +9,7 @@
 } else {
     <GenericList MyList="Categories">
         <Body>
-            <div class="row">
+            <div class="row justify-content-center">
                 @foreach (var category in Categories)
                 {
                     var recipesForCategory = GetRecipes(category.Id);
