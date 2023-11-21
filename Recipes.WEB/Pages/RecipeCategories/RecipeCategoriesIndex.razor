@@ -1,0 +1,127 @@
+﻿@page "/recipecategories"
+
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService swal
+<AuthorizeView Roles="User">
+    @{
+        navigationManager.NavigateTo("/recipecategories/create");
+    }
+</AuthorizeView>
+
+<AuthorizeView Roles="Admin">
+<h3>Categorías de Recetas</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/recipecategories/create">Nueva Categoría de Receta</a>
+</div>
+
+<GenericList MyList="RecipeCategories">
+
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Receta</th>
+                    <th>Categoría</th>
+                    <th></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var recipeCategory in RecipeCategories!)
+                {
+                    <tr>
+                        <td>
+                            @GetRecipeTitle(recipeCategory.RecipeId)
+                        </td>
+                        <td>
+                            @GetCategoryName(recipeCategory.CategoryId)
+                        </td>
+                        <td>
+                            <a href="/recipecategories/edit/@recipeCategory.Id" class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger" @onclick=@(() => Delete(recipeCategory))>Borrar</button>
+
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </Body>
+
+</GenericList>
+</AuthorizeView>
+@code {
+    public List<RecipeCategory>? RecipeCategories { get; set; }
+    public List<Recipe>? Recipes { get; set; }
+    public List<Category>? Categories { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Load();
+    }
+
+    private async Task Load()
+    {
+        var recipeCategoryResponse = await repository.Get<List<RecipeCategory>>("api/recipecategories");
+        RecipeCategories = recipeCategoryResponse.Response!;
+
+        var recipeResponse = await repository.Get<List<Recipe>>("api/recipes");
+        Recipes = recipeResponse.Response!;
+
+        var categoryResponse = await repository.Get<List<Category>>("api/categories");
+        Categories = categoryResponse.Response!;
+    }
+
+    private string GetRecipeTitle(int recipeId)
+    {
+        var recipe = Recipes.FirstOrDefault(r => r.Id == recipeId);
+        return recipe != null ? recipe.Name : string.Empty;
+    }
+
+    private string GetCategoryName(int categoryId)
+    {
+        var category = Categories.FirstOrDefault(c => c.Id == categoryId);
+        return category != null ? category.Name : string.Empty;
+    }
+
+    private async Task Delete(RecipeCategory recipeCategory)
+    {
+        var result = await swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Confirmación",
+                Text = "¿Está seguro de que desea borrar el registro?",
+                Icon = SweetAlertIcon.Question,
+                ShowCancelButton = true
+            });
+
+        var confirm = string.IsNullOrEmpty(result.Value);
+
+        if (confirm)
+        {
+            return;
+        }
+
+        var responseHTTP = await repository.Delete($"api/recipecategories/{recipeCategory.Id}");
+
+        if (responseHTTP.Error)
+        {
+            if (responseHTTP.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("/");
+            }
+            else
+            {
+                var errorMessage = await responseHTTP.GetErrorMessageAsync();
+                await swal.FireAsync("Error", errorMessage, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            await Load();
+        }
+    }
+
+}

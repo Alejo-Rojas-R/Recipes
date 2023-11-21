@@ -61,6 +61,9 @@ builder.Services.AddSwaggerGen(c =>
 
 //Inyeccion de dependencias al SQL server
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=DefaultConnection"));
+
+builder.Services.AddTransient<SeedDb>();
+
 /*
 builder.Services.AddScoped<IRepository, IRepository>();
 
@@ -93,6 +96,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
+
+SeedData(app);
+
+void SeedData(WebApplication app) 
+{
+    IServiceScopeFactory? scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+
+    using (IServiceScope? scope = scopedFactory!.CreateScope())
+    {
+        SeedDb? service = scope.ServiceProvider.GetService<SeedDb>();
+        service!.SeedAsync().Wait();
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

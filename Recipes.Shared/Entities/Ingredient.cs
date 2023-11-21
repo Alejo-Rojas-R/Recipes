@@ -9,7 +9,7 @@ namespace Recipes.Shared.Entities
         [Display(Name = "Nombre del ingrediente")]
         [MaxLength(20)]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        public string? IngredientName { get; set; }
+        public string? Name { get; set; }
 
         [Display(Name = "Imagen")]
         [MaxLength(2000)]

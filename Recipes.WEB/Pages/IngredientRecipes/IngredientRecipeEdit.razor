@@ -1,0 +1,67 @@
+﻿@page "/ingredientrecipes/edit/{Id:int}"
+
+@inject IRepository repository
+@inject NavigationManager navigationManager
+@inject SweetAlertService swal
+@attribute [Authorize(Roles = "Admin")]
+<h3>Editar Ingredientes de Recetas</h3>
+
+@if (ingredientRecipe is null)
+{
+    <div class="spinner" />
+}
+else
+{
+    <IngredientRecipeForm @ref="ingredientRecipeForm" IngredientRecipe="ingredientRecipe" OnValidSubmit="Edit" ReturnAction="Return" />
+}
+
+@code {
+    private IngredientRecipe? ingredientRecipe;
+    private IngredientRecipeForm? ingredientRecipeForm;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var responseHttp = await repository.Get<IngredientRecipe>($"api/ingredientrecipes/{Id}");
+
+        if (responseHttp.Error)
+        {
+            if (responseHttp.HttpResponseMessage.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                navigationManager.NavigateTo("ingredientrecipes");
+            }
+            else
+            {
+                var errorMessage = await responseHttp.GetErrorMessageAsync();
+                await swal.FireAsync("Error", errorMessage, SweetAlertIcon.Error);
+            }
+        }
+        else
+        {
+            ingredientRecipe = responseHttp.Response;
+        }
+    }
+
+    private async Task Edit()
+    {
+        var responseHttp = await repository.Put("api/ingredientrecipes", ingredientRecipe);
+
+        if (responseHttp.Error)
+        {
+            var errorMessage = await responseHttp.GetErrorMessageAsync();
+            await swal.FireAsync("Error", errorMessage, SweetAlertIcon.Error);
+        }
+        else
+        {
+            ingredientRecipeForm!.FormPostedSuccessfully = true;
+            navigationManager.NavigateTo("ingredientrecipes");
+        }
+    }
+
+    private void Return()
+    {
+        navigationManager.NavigateTo("ingredientrecipes");
+    }
+}

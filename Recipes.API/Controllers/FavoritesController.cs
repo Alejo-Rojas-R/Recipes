@@ -43,9 +43,11 @@ namespace Recipes.API.Controllers
         [HttpPost]
         public async Task<ActionResult> Post(Favorite favorite)
         {
+            favorite.Date = DateTime.Now;
 
             _context.Add(favorite);
             await _context.SaveChangesAsync();
+
             return Ok(favorite);
         }
 
@@ -53,6 +55,7 @@ namespace Recipes.API.Controllers
         [HttpPut]
         public async Task<ActionResult> Put(Favorite favorite)
         {
+            favorite.Date = DateTime.Now;
 
             _context.Update(favorite);
             await _context.SaveChangesAsync();
