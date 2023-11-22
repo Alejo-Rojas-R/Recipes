@@ -5,7 +5,16 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+  </PropertyGroup>
 
+  <ItemGroup>
+    <ServiceWorker Include="wwwroot\service-worker.js"
+      PublishedContent="wwwroot\service-worker.published.js"/>
+  </ItemGroup>
+  
   <ItemGroup>
     <Compile Remove="Pages\Ingredient\**" />
     <Content Remove="Pages\Ingredient\**" />
